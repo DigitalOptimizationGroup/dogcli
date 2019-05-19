@@ -3,14 +3,16 @@
 Digital Optimization Group Edge Platform Cli - Developer Preview
 
 <!-- toc -->
-* [dogcli](#dogcli)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [dogcli](#dogcli)
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @digitaloptgroup/cli
 $ dog COMMAND
@@ -22,49 +24,51 @@ USAGE
   $ dog COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`dog autocomplete [SHELL]`](#dog-autocomplete-shell)
-* [`dog deploy COLOR [PATH]`](#dog-deploy-color-path)
-* [`dog dev`](#dog-dev)
-* [`dog domains:add HOSTNAME`](#dog-domainsadd-hostname)
-* [`dog domains:status HOSTNAME`](#dog-domainsstatus-hostname)
-* [`dog help [COMMAND]`](#dog-help-command)
-* [`dog login`](#dog-login)
-* [`dog logout`](#dog-logout)
-* [`dog logs:assetLoadTime`](#dog-logsassetloadtime)
-* [`dog logs:caughtError`](#dog-logscaughterror)
-* [`dog logs:clientPing`](#dog-logsclientping)
-* [`dog logs:error`](#dog-logserror)
-* [`dog logs:fps`](#dog-logsfps)
-* [`dog logs:longTasksTiming`](#dog-logslongtaskstiming)
-* [`dog logs:mouseDistance`](#dog-logsmousedistance)
-* [`dog logs:orientationChange`](#dog-logsorientationchange)
-* [`dog logs:outcome`](#dog-logsoutcome)
-* [`dog logs:pageScrolling`](#dog-logspagescrolling)
-* [`dog logs:pageView`](#dog-logspageview)
-* [`dog logs:performanceTiming`](#dog-logsperformancetiming)
-* [`dog logs:proxyLogs`](#dog-logsproxylogs)
-* [`dog logs:rapidClicking`](#dog-logsrapidclicking)
-* [`dog logs:serverLogs`](#dog-logsserverlogs)
-* [`dog logs:timeOnPage`](#dog-logstimeonpage)
-* [`dog logs:timeOnSite`](#dog-logstimeonsite)
-* [`dog logs:variationInViewport`](#dog-logsvariationinviewport)
-* [`dog logs:variationMousedown`](#dog-logsvariationmousedown)
-* [`dog projects:current`](#dog-projectscurrent)
-* [`dog projects:list`](#dog-projectslist)
-* [`dog projects:select`](#dog-projectsselect)
-* [`dog proxy:abtest`](#dog-proxyabtest)
-* [`dog proxy:apply`](#dog-proxyapply)
-* [`dog proxy:canary`](#dog-proxycanary)
-* [`dog proxy:gatekeep ORIGIN`](#dog-proxygatekeep-origin)
-* [`dog proxy:localhost [PORT]`](#dog-proxylocalhost-port)
-* [`dog proxy:prod PRODUCTIONBACKEND`](#dog-proxyprod-productionbackend)
-* [`dog proxy:refresh`](#dog-proxyrefresh)
-* [`dog proxy:show`](#dog-proxyshow)
+
+- [`dog autocomplete [SHELL]`](#dog-autocomplete-shell)
+- [`dog deploy COLOR [PATH]`](#dog-deploy-color-path)
+- [`dog dev`](#dog-dev)
+- [`dog domains:add HOSTNAME`](#dog-domainsadd-hostname)
+- [`dog domains:status HOSTNAME`](#dog-domainsstatus-hostname)
+- [`dog help [COMMAND]`](#dog-help-command)
+- [`dog login`](#dog-login)
+- [`dog logout`](#dog-logout)
+- [`dog logs:assetLoadTime`](#dog-logsassetloadtime)
+- [`dog logs:caughtError`](#dog-logscaughterror)
+- [`dog logs:clientPing`](#dog-logsclientping)
+- [`dog logs:error`](#dog-logserror)
+- [`dog logs:fps`](#dog-logsfps)
+- [`dog logs:longTasksTiming`](#dog-logslongtaskstiming)
+- [`dog logs:mouseDistance`](#dog-logsmousedistance)
+- [`dog logs:orientationChange`](#dog-logsorientationchange)
+- [`dog logs:outcome`](#dog-logsoutcome)
+- [`dog logs:pageScrolling`](#dog-logspagescrolling)
+- [`dog logs:pageView`](#dog-logspageview)
+- [`dog logs:performanceTiming`](#dog-logsperformancetiming)
+- [`dog logs:proxyLogs`](#dog-logsproxylogs)
+- [`dog logs:rapidClicking`](#dog-logsrapidclicking)
+- [`dog logs:serverLogs`](#dog-logsserverlogs)
+- [`dog logs:timeOnPage`](#dog-logstimeonpage)
+- [`dog logs:timeOnSite`](#dog-logstimeonsite)
+- [`dog logs:variationInViewport`](#dog-logsvariationinviewport)
+- [`dog logs:variationMousedown`](#dog-logsvariationmousedown)
+- [`dog projects:current`](#dog-projectscurrent)
+- [`dog projects:list`](#dog-projectslist)
+- [`dog projects:select`](#dog-projectsselect)
+- [`dog proxy:abtest`](#dog-proxyabtest)
+- [`dog proxy:apply`](#dog-proxyapply)
+- [`dog proxy:canary`](#dog-proxycanary)
+- [`dog proxy:gatekeep ORIGIN`](#dog-proxygatekeep-origin)
+- [`dog proxy:localhost [PORT]`](#dog-proxylocalhost-port)
+- [`dog proxy:prod PRODUCTIONBACKEND`](#dog-proxyprod-productionbackend)
+- [`dog proxy:refresh`](#dog-proxyrefresh)
+- [`dog proxy:show`](#dog-proxyshow)
 
 ## `dog autocomplete [SHELL]`
 
@@ -372,7 +376,7 @@ OPTIONS
       line type
 
   -p, --property=property
-      filter by performance timing property: 
+      filter by performance timing property:
       timeToFetchStart
       dnsLookupTime
       timeToFistByte
@@ -638,4 +642,5 @@ USAGE
 ```
 
 _See code: [src/commands/proxy/show.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-developer-preview-01/src/commands/proxy/show.ts)_
+
 <!-- commandsstop -->
