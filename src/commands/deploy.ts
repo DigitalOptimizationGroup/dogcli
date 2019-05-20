@@ -70,7 +70,9 @@ export default class Deploy extends Command {
 build folder:    [${args.path}/build]
 target project:  [${projectId}]
 target color:    [${args.color}]
-bundle hash:     [${bundleDigest}]`)
+bundle hash:     [${bundleDigest}]
+force flag:      [${flags.force ? true : false}]
+`)
 
     this.log()
     const response = await cli.prompt(
