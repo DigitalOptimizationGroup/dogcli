@@ -1,11 +1,6 @@
 import {Command, flags} from '@oclif/command'
-import {apiClient, processResponse} from '../../api'
+import {apiClient} from '../../api'
 import {configstore} from '../../configstore'
-import {AxiosResponse} from 'axios'
-import {cli} from 'cli-ux'
-import {args} from '@oclif/parser'
-import {hostname} from 'os'
-import chalk from 'chalk'
 const logSymbols = require('log-symbols')
 
 import {CUSTOM_DOMAINS_CNAME} from '../../cli-config'

@@ -5,8 +5,7 @@ const resolve = async ({userId, queryName, args}) => {
   return Promise.resolve([
     `${queryName}_${sha1(stableStringify(args))}`,
     await fetch(
-      `https://api-digitaloptgroup.yates-digitaloptgroup.com/resolve-feature/${queryName}?args=${encodeURIComponent(
-        //  `https://api-${PROJECT_ID}.yates-digitaloptgroup.com/resolve-feature/${queryName}?args=${encodeURIComponent(
+      `https://api-${PROJECT_ID}.edgeyates.com/resolve-feature/${queryName}?args=${encodeURIComponent(
         JSON.stringify(args)
       )}`
     )

@@ -51,6 +51,9 @@ force flag:      [${flags.force ? true : false}]
     )
 
     if (response === 'yes') {
+      const intervalId = setInterval(() => {
+        this.log('deploying...')
+      }, 3000)
       const res = await new Promise<AxiosResponse<any>>((resolve, reject) => {
         API.post(`/api/v1/lambda`, script, {
           params: {
@@ -66,12 +69,18 @@ force flag:      [${flags.force ? true : false}]
           maxContentLength: 100 * 1024 * 1024,
           timeout: 120 * 1000
         })
-          .then(resolve)
-          .catch(reject)
+          .then(res => {
+            clearInterval(intervalId)
+            resolve(res)
+          })
+          .catch(err => {
+            clearInterval(intervalId)
+            reject(err)
+          })
       })
 
       processResponse(this, res, () => {
-        this.log(`Successfully deployed to your lambda to: ${args.color}`)
+        this.log(`Successfully deployed your lambda at: ${args.color}`)
       })
     } else {
       this.log('Exiting without deploying...')
