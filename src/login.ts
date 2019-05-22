@@ -40,6 +40,7 @@ const loginWithLocalhost = (port: number, state: string, authUrl: string) => {
       if (query.state === state && query.token) {
         respondWithFile(req, res, 200, './templates/success.html')
           .then(() => {
+            configstore.clear()
             configstore.set('token', query.token)
             server.close()
             console.log()

@@ -5,7 +5,7 @@ const resolve = async ({userId, queryName, args}) => {
   return Promise.resolve([
     `${queryName}_${sha1(stableStringify(args))}`,
     await fetch(
-      `https://api-${PROJECT_ID}.edgeyates.com/resolve-feature/${queryName}?args=${encodeURIComponent(
+      `https://api-${PROJECT_ID}.edgeyates.com/resolve-feature/${queryName}?userId=${userId}&args=${encodeURIComponent(
         JSON.stringify(args)
       )}`
     )
@@ -28,12 +28,14 @@ export const cache = (pathname, userId, preCacheManifest) => {
       })
     ).then(features => {
       // filter out any errors
-      return features.reduce((acc, item) => {
-        return {
-          ...acc,
-          [item[0]]: item[1]
-        }
-      }, {})
+      return features
+        .filter(([featureId, feature]) => feature.assignment)
+        .reduce((acc, item) => {
+          return {
+            ...acc,
+            [item[0]]: item[1]
+          }
+        }, {})
     })
   }
   return Promise.resolve({})

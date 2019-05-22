@@ -1,7 +1,7 @@
 {
   "name": "@digitaloptgroup/cli",
   "description": "Digital Optimization Group Edge Platform Cli",
-  "version": "0.0.1-dev-preview-06",
+  "version": "0.0.1-dev-preview-07",
   "author": "Digital Optimization Group LLC",
   "bin": {
     "dog": "./bin/run"
@@ -25,6 +25,7 @@
     "@oclif/plugin-help": "^2",
     "@types/uuid": "^3.4.4",
     "axios": "^0.18.0",
+    "babel-loader": "^8.0.6",
     "chalk": "^2.4.2",
     "cli-color": "^1.4.0",
     "cli-ux": "^5.2.1",
