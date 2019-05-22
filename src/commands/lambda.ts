@@ -74,8 +74,11 @@ force flag:      [${flags.force ? true : false}]
             resolve(res)
           })
           .catch(err => {
+            console.log(
+              'Sorry that failed, you could try it again or send us this id: ',
+              err.response.data
+            )
             clearInterval(intervalId)
-            reject(err)
           })
       })
 

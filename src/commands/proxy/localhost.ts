@@ -1,11 +1,9 @@
-import {Command, flags} from '@oclif/command'
+import {Command} from '@oclif/command'
 import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
 import {cli} from 'cli-ux'
 const clc = require('cli-color')
 import * as ngrok from 'ngrok'
-import * as localtunnel from 'localtunnel'
-import * as uuid from 'uuid'
 
 export default class Localhost extends Command {
   static description =
@@ -31,16 +29,6 @@ export default class Localhost extends Command {
     this.log()
 
     this.log('Creating SSH tunnel...')
-
-    // const subdomain = uuid()
-
-    // const url = await new Promise((res, rej) => {
-    //   localtunnel(args.port, {subdomain}, (err: any, tunnel: any) => {
-    //     res(tunnel.url)
-    //   })
-    // })
-
-    // console.log('url', url)
 
     const url = await ngrok.connect({
       port: args.port

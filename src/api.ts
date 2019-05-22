@@ -38,6 +38,7 @@ export const processResponse = (
   res: AxiosResponse,
   successFn?: () => void
 ): void => {
+  console.log('calling processResponse')
   if (res.status >= 200 && res.status < 299) {
     if (successFn) {
       successFn()
