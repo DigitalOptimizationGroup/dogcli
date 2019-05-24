@@ -1,7 +1,7 @@
 {
   "name": "@digitaloptgroup/cli",
-  "description": "Digital Optimization Group Edge Platform Cli",
-  "version": "0.0.1-dev-preview-07",
+  "description": "Digital Optimization Group Edge Platform CLI",
+  "version": "0.0.1-dev-preview-09",
   "author": "Digital Optimization Group LLC",
   "bin": {
     "dog": "./bin/run"
@@ -100,7 +100,27 @@
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-autocomplete"
-    ]
+    ],
+    "topics": {
+      "apps": {
+        "description": "manage your apps"
+      },
+      "autocomplete": {
+        "description": "setup optional autocomplete"
+      },
+      "domains": {
+        "description": "manage SSL and domains for your app"
+      },
+      "help": {
+        "description": "display this help text"
+      },
+      "logs": {
+        "description": "show realtime server & client logs"
+      },
+      "proxy": {
+        "description": "a/b test & canary release between backends"
+      }
+    }
   },
   "repository": "DigitalOptGroup/dogcli",
   "scripts": {

@@ -2,7 +2,7 @@ import {Command} from '@oclif/command'
 import {configstore} from '../configstore'
 
 export default class Logout extends Command {
-  static description = `logout and delete local credentials`
+  static description = `sign out of your account`
 
   static flags = {}
 

@@ -7,7 +7,7 @@ import {login} from '../login'
 const baseURL = process.env.DOG_BASE_URL || 'https://cli.digitaloptgroup.com'
 
 export default class Login extends Command {
-  static description = `login to fetch credentials for the cli`
+  static description = `sign in to your account`
 
   static flags = {}
 

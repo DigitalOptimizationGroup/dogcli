@@ -7,7 +7,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 export default class Deploy extends Command {
-  static description = 'deploy a lambda function and proxy from the edge!'
+  static description = 'deploy and proxy requests to a lambda function'
 
   static args = [
     {

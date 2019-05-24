@@ -4,8 +4,7 @@ const logSymbols = require('log-symbols')
 import {DefaultConfig} from '@digitaloptgroup/types/proxy'
 
 export default class ProductionBackend extends Command {
-  static description =
-    'set your local proxy config to a single production backend'
+  static description = `set your local proxy config to a single production backend`
 
   static flags = {}
 

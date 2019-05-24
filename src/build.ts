@@ -77,7 +77,9 @@ export function build(
 
   let cacheConfig = JSON.stringify({'/': []})
   if (routesFile !== undefined) {
-    cacheConfig = fs.readFileSync(routesFile, 'utf8')
+    try {
+      cacheConfig = fs.readFileSync(routesFile, 'utf8')
+    } catch (e) {}
   }
 
   fs.writeFileSync(
@@ -87,7 +89,9 @@ export function build(
 
   let functionFile = `export const functions = {}`
   if (functionsFile !== undefined) {
-    functionFile = fs.readFileSync(functionsFile, 'utf8')
+    try {
+      functionFile = fs.readFileSync(functionsFile, 'utf8')
+    } catch (e) {}
   }
 
   fs.writeFileSync(path.resolve(__dirname, 'tmp/functions.js'), functionFile)

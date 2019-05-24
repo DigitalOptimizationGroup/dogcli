@@ -1,18 +1,19 @@
 import {apiClient, processResponse} from '../api'
-import * as tar from 'tar-fs'
-import {createWriteStream, readFileSync, existsSync} from 'fs'
 import {createHash} from 'crypto'
-import * as pako from 'pako'
 import {AxiosResponse} from 'axios'
-import {resolve as pathResolve} from 'path'
 import {Command, flags} from '@oclif/command'
-import chalk from 'chalk'
 import {build} from '../build'
 import {configstore} from '../configstore'
 import {cli} from 'cli-ux'
 
 export default class Deploy extends Command {
-  static description = 'deploy to the edge!'
+  static description = 'deploy your application'
+
+  static examples = [
+    'dog deploy blue',
+    'dog deploy blue --force',
+    'dog deploy green --path /build'
+  ]
 
   static args = [
     {
