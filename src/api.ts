@@ -1,13 +1,13 @@
 import axios from 'axios'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
-import {configstore} from './configstore'
+import {auth} from './auth'
 import {DOG_BASE_URL, USER_AGENT} from './cli-config'
 
 export const apiClient = (cmd: Command) => {
   const baseURL = DOG_BASE_URL
 
-  const token = configstore.get('token')
+  const token = auth.get('token')
 
   if (token === undefined) {
     console.log()

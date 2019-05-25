@@ -1,5 +1,5 @@
 import {Command} from '@oclif/command'
-import {configstore} from '../configstore'
+import {auth} from '../auth'
 
 export default class Logout extends Command {
   static description = `sign out of your account`
@@ -9,7 +9,7 @@ export default class Logout extends Command {
   static args = []
 
   public async run() {
-    configstore.delete('token')
+    auth.delete('token')
     console.log(
       'You have successfully logged out of Digitial Optimization Group CLI.'
     )

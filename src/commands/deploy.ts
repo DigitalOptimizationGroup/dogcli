@@ -3,8 +3,8 @@ import {createHash} from 'crypto'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
 import {build} from '../build'
-import {configstore} from '../configstore'
 import {cli} from 'cli-ux'
+import {getProjectId} from '../get-project-id'
 
 export default class Deploy extends Command {
   static description = 'deploy your application'
@@ -51,7 +51,7 @@ export default class Deploy extends Command {
   async run() {
     const {args, flags} = this.parse(Deploy)
     const API = apiClient(this)
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     this.log('Building app for deployment...')
     this.log()

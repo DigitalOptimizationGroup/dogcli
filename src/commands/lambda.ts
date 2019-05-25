@@ -1,10 +1,9 @@
 import {apiClient, processResponse} from '../api'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
-import {configstore} from '../configstore'
 import {cli} from 'cli-ux'
 import * as fs from 'fs'
-import * as path from 'path'
+import {getProjectId} from '../get-project-id'
 
 export default class Deploy extends Command {
   static description = 'deploy and proxy requests to a lambda function'
@@ -30,7 +29,7 @@ export default class Deploy extends Command {
   async run() {
     const {args, flags} = this.parse(Deploy)
     const API = apiClient(this)
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     this.log('Deploying lambda function...')
     this.log()

@@ -3,8 +3,8 @@ import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
 import * as inquirer from 'inquirer'
 
-export default class Projects extends Command {
-  static description = `list all projects in your account`
+export default class ListApps extends Command {
+  static description = `list all apps in your account`
 
   static flags = {}
 
@@ -14,7 +14,7 @@ export default class Projects extends Command {
     const API = apiClient(this)
 
     this.log()
-    this.log('Refreshing projects list...')
+    this.log('Refreshing apps list...')
     this.log()
 
     await API.post(`/api/v1/refresh-projects`)

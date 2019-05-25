@@ -4,6 +4,7 @@ import {configstore} from '../../configstore'
 import {AxiosResponse} from 'axios'
 import * as diff from 'json-diff'
 import {cli} from 'cli-ux'
+import {getProjectId} from '../get-project-id'
 
 export default class Apply extends Command {
   static description = 'update your production proxy'
@@ -18,7 +19,7 @@ export default class Apply extends Command {
     const API = apiClient(this)
     const {flags} = this.parse(Apply)
 
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     // check if proxy has a config file in the project
     const proxyConfig = configstore.get('proxyConfig')

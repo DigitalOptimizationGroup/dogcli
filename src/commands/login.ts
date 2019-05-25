@@ -1,7 +1,4 @@
-import {Command, flags} from '@oclif/command'
-import {processResponse} from '../api'
-import {cli} from 'cli-ux'
-import axios from 'axios'
+import {Command} from '@oclif/command'
 import {login} from '../login'
 
 const baseURL = process.env.DOG_BASE_URL || 'https://cli.digitaloptgroup.com'

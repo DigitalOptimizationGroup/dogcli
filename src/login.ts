@@ -6,7 +6,7 @@ var path = require('path')
 var clc = require('cli-color')
 import {cli} from 'cli-ux'
 import * as uuid from 'uuid/v4'
-import {configstore} from './configstore'
+import {auth} from './auth'
 const logSymbols = require('log-symbols')
 
 portfinder.basePort = 9012
@@ -40,8 +40,7 @@ const loginWithLocalhost = (port: number, state: string, authUrl: string) => {
       if (query.state === state && query.token) {
         respondWithFile(req, res, 200, './templates/success.html')
           .then(() => {
-            configstore.clear()
-            configstore.set('token', query.token)
+            auth.set('token', query.token)
             server.close()
             console.log()
             console.log(

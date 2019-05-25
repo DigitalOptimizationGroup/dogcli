@@ -2,6 +2,7 @@ import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
 const logSymbols = require('log-symbols')
 import {apiClient} from '../../api'
+import {getProjectId} from '../../get-project-id'
 
 export default class Show extends Command {
   static description = 'refresh your local config from production environment'
@@ -11,7 +12,7 @@ export default class Show extends Command {
   static args = []
 
   async run() {
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
     const API = apiClient(this)
 
     await API.post(`/api/v1/refresh-proxy`, '', {
