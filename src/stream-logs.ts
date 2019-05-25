@@ -32,9 +32,10 @@ export const streamLogs = (
     const logLines = JSON.parse(message.data)
     if (logLines.path === '/' && message.data !== null && logLines.data) {
       Object.values(logLines.data).forEach(line => {
-        if (lineType === 'prettyjson')
+        if (lineType === 'prettyjson') {
           console.log(JSON.stringify(line, null, 4))
-        else console.log(JSON.stringify(line))
+          console.log()
+        } else console.log(JSON.stringify(line))
       })
     } else if (message.data !== null && logLines && logLines.data) {
       if (lineType === 'prettyjson')
