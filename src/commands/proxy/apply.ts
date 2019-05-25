@@ -4,7 +4,7 @@ import {configstore} from '../../configstore'
 import {AxiosResponse} from 'axios'
 import * as diff from 'json-diff'
 import {cli} from 'cli-ux'
-import {getProjectId} from '../get-project-id'
+import {getProjectId} from '../../get-project-id'
 
 export default class Apply extends Command {
   static description = 'update your production proxy'
