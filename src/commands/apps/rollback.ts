@@ -1,13 +1,14 @@
-import {Command} from '@oclif/command'
+import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
-import {apiClient} from '../../api'
+import {apiClient, processResponse} from '../../api'
 import * as inquirer from 'inquirer'
 import {cli} from 'cli-ux'
+import {AxiosResponse} from 'axios'
 
 export default class RollbackApp extends Command {
   static description = `rollback to a prior deployment`
 
-  static flags = {}
+  static flags = {force: flags.boolean()}
 
   static args = [{name: 'color', required: true}]
 
@@ -76,8 +77,39 @@ force flag:      [${flags.force ? true : false}]
     )
 
     if (response === 'yes') {
-      this.log('Rolling back now...')
-      this.log()
+      const intervalId = setInterval(() => {
+        this.log('Rolling back...')
+      }, 3000)
+
+      const rollbackId = selectedDeploy.id
+
+      const res = await new Promise<AxiosResponse<any>>((resolve, reject) => {
+        API.post(`/api/v1/rollback-app`, '', {
+          params: {
+            color: args.color,
+            projectId,
+            force: flags.force,
+            rollbackId
+          }
+        })
+          .then(res => {
+            clearInterval(intervalId)
+            resolve(res)
+          })
+          .catch(err => {
+            console.log(
+              'Sorry that failed, you could try it again or send us this id: ',
+              err.response.data
+            )
+            clearInterval(intervalId)
+          })
+      })
+
+      processResponse(this, res, () => {
+        this.log(`Rollback completed successfully: ${args.color} backend`)
+      })
+    } else {
+      this.log('Exiting without rolling back...')
     }
   }
 }
