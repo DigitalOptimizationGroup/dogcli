@@ -1,5 +1,5 @@
 import {Command} from '@oclif/command'
-import {configstore} from '../../configstore'
+import {getProjectId} from '../../get-project-id'
 
 export default class Projects extends Command {
   static description = `show currently selected project`
@@ -9,8 +9,9 @@ export default class Projects extends Command {
   static args = []
 
   public async run() {
+    const projectId = getProjectId()
     this.log()
-    this.log(`Currently selected projectId: ${configstore.get('projectId')}`)
+    this.log(`Currently selected projectId: ${projectId}`)
     this.log()
   }
 }

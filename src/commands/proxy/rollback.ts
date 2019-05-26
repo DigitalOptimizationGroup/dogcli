@@ -5,24 +5,22 @@ import {cli} from 'cli-ux'
 import {AxiosResponse} from 'axios'
 import {getProjectId} from '../../get-project-id'
 
-export default class RollbackColor extends Command {
-  static description = `rollback a color to a prior deployment`
-
-  static flags = {force: flags.boolean()}
-
-  static args = [{name: 'color', required: true}]
+export default class RollbackProxy extends Command {
+  static description = `rollback proxy to a prior deployment`
+  static flags = {}
+  static args = []
 
   public async run() {
-    const {args, flags} = this.parse(RollbackColor)
+    const {args, flags} = this.parse(RollbackProxy)
     const API = apiClient(this)
     const projectId = getProjectId()
 
     this.log()
-    this.log('Refreshing deployment list...')
+    this.log('Refreshing list of proxy deployments...')
     this.log()
 
     const deployments: Array<any> = await API.post(
-      `/api/v1/refresh-colors-deployment-list`,
+      `/api/v1/refresh-proxy-deployment-list`,
       '',
       {
         params: {
@@ -47,7 +45,7 @@ export default class RollbackColor extends Command {
       })
 
     if (deployments.length === 0) {
-      this.log(`There are no prior deployments for ${args.color}, exiting...`)
+      this.log(`There are no prior deployments for your proxy, exiting...`)
       this.log()
       process.exit()
     }
@@ -56,32 +54,33 @@ export default class RollbackColor extends Command {
       {
         type: 'list',
         name: 'name',
-        message: `Select a deployment to rollback blue:`,
+        message: `Select a deployment to rollback proxy:`,
         choices: deployments.map(
-          item => `${item.name} deployed ${item.scriptHash} on ${item.date}`
+          item =>
+            `${item.name} deployed ${JSON.stringify(item.config)} on ${
+              item.date
+            }`
         )
       }
     ])
 
     const [selectedDeploy] = deployments.filter(
       item =>
-        `${item.name} deployed ${item.scriptHash} on ${item.date}` ===
-        answer.name
+        `${item.name} deployed ${JSON.stringify(item.config)} on ${
+          item.date
+        }` === answer.name
     )
 
     this.log(`
     
-Rolling back:
+Rolling back proxy:
 
 target project:  [${projectId}]
-target color:    [${args.color}]
 
 rolling back to:
-  hash:          [${selectedDeploy.scriptHash}]
+  config:        ${JSON.stringify(selectedDeploy.config)}
   deployed by:   [${selectedDeploy.name}]
   deployed on:   [${selectedDeploy.date}]
-
-force flag:      [${flags.force ? true : false}]
 
 `)
 
@@ -91,17 +90,15 @@ force flag:      [${flags.force ? true : false}]
 
     if (response === 'yes') {
       const intervalId = setInterval(() => {
-        this.log(`Rolling back ${args.color}`)
+        this.log('Rolling back proxy...')
       }, 3000)
 
       const rollbackId = selectedDeploy.id
 
       const res = await new Promise<AxiosResponse<any>>((resolve, reject) => {
-        API.post(`/api/v1/rollback-color`, '', {
+        API.post(`/api/v1/rollback-proxy`, '', {
           params: {
-            color: args.color,
             projectId,
-            force: flags.force,
             rollbackId
           }
         })
@@ -119,7 +116,7 @@ force flag:      [${flags.force ? true : false}]
       })
 
       processResponse(this, res, () => {
-        this.log(`Rollback completed successfully: ${args.color} backend`)
+        this.log(`Rollback of proxy completed successfully`)
       })
     } else {
       this.log('Exiting without rolling back...')

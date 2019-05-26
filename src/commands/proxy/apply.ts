@@ -53,6 +53,7 @@ export default class Apply extends Command {
         process.exit()
       })
 
+    // need to get this for reals
     const domains = [
       `https://${projectId}.edgebayes.com`,
       'https://test.abtrack.io'

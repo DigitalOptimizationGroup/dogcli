@@ -17,15 +17,14 @@ export default class ListApps extends Command {
     this.log('Refreshing apps list...')
     this.log()
 
-    await API.post(`/api/v1/refresh-projects`)
+    const projects = await API.post(`/api/v1/refresh-projects`)
       .then(response => {
-        configstore.set('projects', response.data)
+        return response.data || []
       })
       .catch(err => {
         console.log('err', err)
       })
 
-    const projects = configstore.get('projects') || []
     projects.forEach((projectId: string) => {
       this.log(projectId)
     })

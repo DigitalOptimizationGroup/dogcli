@@ -2,9 +2,7 @@ import {Command} from '@oclif/command'
 import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
 import * as inquirer from 'inquirer'
-import * as fs from 'fs'
-const findUp = require('find-up')
-import {cli, config} from 'cli-ux'
+import {cli} from 'cli-ux'
 
 export default class Projects extends Command {
   static description = `initalize an app in this directory (should be the root of your project)`
@@ -16,7 +14,7 @@ export default class Projects extends Command {
   public async run() {
     const API = apiClient(this)
 
-    if (configstore.get('appId') !== undefined) {
+    if (configstore.get('projectId') !== undefined) {
       this.log()
       this.log(
         'This directory has already been initialized, doing so again will overwrite the current configuration.'
@@ -31,6 +29,7 @@ export default class Projects extends Command {
         this.log('Exiting...')
         process.exit(1)
       }
+      configstore.clear()
     }
 
     this.log()
@@ -54,7 +53,7 @@ export default class Projects extends Command {
       }
     ])
 
-    configstore.set('appId', answer.appId)
+    configstore.set('projectId', answer.appId)
 
     this.log()
     this.log(

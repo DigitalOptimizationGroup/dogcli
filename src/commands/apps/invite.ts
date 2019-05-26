@@ -1,6 +1,6 @@
 import {Command} from '@oclif/command'
 import {apiClient} from '../../api'
-import {configstore} from '../../configstore'
+import {getProjectId} from '../../get-project-id'
 const logSymbols = require('log-symbols')
 
 export default class AddDomain extends Command {
@@ -10,7 +10,7 @@ export default class AddDomain extends Command {
   async run() {
     const API = apiClient(this)
 
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     const response = await API.post(
       `/api/v1/create-invite`,

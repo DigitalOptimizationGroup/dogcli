@@ -3,10 +3,10 @@ import * as fs from 'fs'
 export const getProjectId = () => {
   try {
     const config = JSON.parse(fs.readFileSync('./.dogcli', 'utf8'))
-    if (config.appId === undefined) {
+    if (config.projectId === undefined) {
       throw Error('AppId not selected')
     }
-    return config.appId
+    return config.projectId
   } catch (e) {
     console.log(`
 This directory doesn't seem to be initialized for deployment. 
