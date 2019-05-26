@@ -25,7 +25,7 @@ export default class Show extends Command {
           this.log(response.data.error)
           process.exit()
         }
-        configstore.set('proxyConfig', response.data)
+        configstore.set('proxyConfig', response.data.config)
         this.log()
         this.log(
           logSymbols.success,

@@ -24,15 +24,21 @@ export default class Apply extends Command {
     // check if proxy has a config file in the project
     const proxyConfig = configstore.get('proxyConfig')
     if (proxyConfig === undefined) {
-      this.log(
-        'You must at least set a default backend to deploy the proxy. Run `dog proxy:config --default blue` and try again.'
-      )
+      this.log(`
+Local proxy config is not set. You must at least set a default backend to deploy the proxy. Try one of these:
+        
+dog proxy:prod blue
+dog proxy:abtest --origin blue --origin green
+dog proxy:canary --default blue --canary green --weight 20
+
+  `)
+      process.exit()
     }
     this.log()
     this.log('Preparing to update proxy...')
     this.log()
 
-    const currentDeployedProxyConfig = await API.post(
+    const {config, urls}: {config: any; urls: Array<string>} = await API.post(
       `/api/v1/refresh-proxy`,
       '',
       {
@@ -53,28 +59,22 @@ export default class Apply extends Command {
         process.exit()
       })
 
-    // need to get this for reals
-    const domains = [
-      `https://${projectId}.edgebayes.com`,
-      'https://test.abtrack.io'
-    ]
+    console.log({
+      config,
+      urls
+    })
 
     this.log(`Project & domain(s) this will apply to:
 
 target project:  [${projectId}]
-${domains.map(domain => `target domain:   [${domain}]`).join('\n')}
+${urls.map(url => `target domain:   [${url}]`).join('\n')}
 `)
 
     this.log(
       'Deploying will make the following changes to your production proxy config: '
     )
     this.log()
-    this.log(
-      diff.diffString(
-        currentDeployedProxyConfig,
-        configstore.get('proxyConfig')
-      )
-    )
+    this.log(diff.diffString(config, configstore.get('proxyConfig')))
     this.log()
 
     const response = await cli.prompt(
@@ -98,9 +98,11 @@ ${domains.map(domain => `target domain:   [${domain}]`).join('\n')}
 
       processResponse(this, res, () => {
         // this should come from the config and if there is a domain it should show that?
-        this.log(
-          `Successfully updated proxy at: https://${projectId}.edgebayes.com`
-        )
+        this.log(`
+Successfully updated proxy at:
+
+${urls.join('\n')}
+`)
       })
     } else {
       this.log('Exiting without applying...')
