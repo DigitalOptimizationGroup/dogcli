@@ -1,11 +1,11 @@
 import {Command} from '@oclif/command'
-import {apiClient} from '../../api'
-import {getProjectId} from '../../get-project-id'
+import {apiClient} from '../api'
+import {getProjectId} from '../get-project-id'
 const logSymbols = require('log-symbols')
 
 export default class AddDomain extends Command {
   static description =
-    'create an invite link you can use to allow another to create their own project in developer preview'
+    'create invite link/code for developer preview (allows someone else to create their own account)'
 
   async run() {
     const API = apiClient(this)
