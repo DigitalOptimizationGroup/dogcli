@@ -8,6 +8,7 @@ import {getProjectId} from '../../get-project-id'
 import {configstore} from '../../configstore'
 import * as inquirer from 'inquirer'
 import * as fs from 'fs'
+import {askForScriptPath} from '../../ask-for-script-path'
 
 export default class Deploy extends Command {
   static description = 'deploy your application'
@@ -111,9 +112,10 @@ target color:    [${args.color}]
 force flag:      [${flags.force ? true : false}]
 `)
     } else if (appTypeId === 'rawWorker') {
-      const scriptPath = await cli.prompt(
-        'Enter the relative path to your raw script file'
-      )
+      var scriptPath = configstore.get('scriptPath')
+      if (scriptPath === undefined) {
+        scriptPath = await askForScriptPath()
+      }
       this.log()
 
       script = fs.readFileSync(scriptPath, 'utf8')

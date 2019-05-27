@@ -3,6 +3,8 @@ import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
 import * as inquirer from 'inquirer'
 import {cli} from 'cli-ux'
+import * as fs from 'fs'
+import {askForScriptPath} from '../../ask-for-script-path'
 
 export default class Projects extends Command {
   static description = `initalize an app in this directory (should be the root of your project)`
@@ -59,15 +61,28 @@ export default class Projects extends Command {
       }
     ])
 
+    const appType = apps.appTypes.find(
+      (app: {name: string}) => app.name === answer.script
+    ).id
+
+    var scriptPath: string = ''
+    if (appType === 'rawWorker') {
+      scriptPath = await askForScriptPath()
+      configstore.set('scriptPath', scriptPath)
+    }
+
     configstore.set('projectId', answer.appId)
-    configstore.set(
-      'appType',
-      apps.appTypes.find((app: {name: string}) => app.name === answer.script).id
-    )
+    configstore.set('appType', appType)
 
     this.log()
     this.log(
-      `Successfully configured this directory for appId: ${answer.appId}`
+      `Successfully configured this directory:
+
+app Id:       [${answer.appId}]
+app type:     [${answer.script}] ${
+        appType === 'rawWorker' ? `\nScript path:  [${scriptPath}]` : ''
+      }
+`
     )
     this.log()
   }

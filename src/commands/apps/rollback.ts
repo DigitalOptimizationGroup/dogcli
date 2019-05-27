@@ -91,7 +91,7 @@ force flag:      [${flags.force ? true : false}]
 
     if (response === 'yes') {
       const intervalId = setInterval(() => {
-        this.log(`Rolling back ${args.color}`)
+        this.log(`Rolling back ${args.color}...`)
       }, 3000)
 
       const rollbackId = selectedDeploy.id
