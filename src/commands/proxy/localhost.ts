@@ -4,6 +4,7 @@ import {apiClient} from '../../api'
 import {cli} from 'cli-ux'
 const clc = require('cli-color')
 import * as ngrok from 'ngrok'
+import {getProjectId} from '../../get-project-id'
 
 export default class Localhost extends Command {
   static description =
@@ -22,7 +23,7 @@ export default class Localhost extends Command {
   async run() {
     const {args} = this.parse(Localhost)
     const API = apiClient(this)
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     this.log()
     this.log('This is an EXPERIMENTAL feature')

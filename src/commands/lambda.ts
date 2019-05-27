@@ -17,7 +17,8 @@ export default class Deploy extends Command {
     },
     {
       name: 'path',
-      description: 'relative path to zipped lambda function',
+      description:
+        'relative path to a single file, non-zipped, lambda function',
       required: true
     }
   ]

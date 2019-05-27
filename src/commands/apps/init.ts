@@ -44,16 +44,26 @@ export default class Projects extends Command {
         console.log('err', err)
       })
 
-    const answer: {appId: string} = await inquirer.prompt([
+    const answer: {appId: string; script: string} = await inquirer.prompt([
       {
         type: 'list',
         name: 'appId',
         message: "Select the app you'd like to use for deployment:",
-        choices: apps
+        choices: apps.projects
+      },
+      {
+        type: 'list',
+        name: 'script',
+        message: 'Select an App type:',
+        choices: apps.appTypes
       }
     ])
 
     configstore.set('projectId', answer.appId)
+    configstore.set(
+      'appType',
+      apps.appTypes.find((app: {name: string}) => app.name === answer.script).id
+    )
 
     this.log()
     this.log(

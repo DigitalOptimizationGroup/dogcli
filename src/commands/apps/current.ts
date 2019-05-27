@@ -2,7 +2,7 @@ import {Command} from '@oclif/command'
 import {getProjectId} from '../../get-project-id'
 
 export default class Projects extends Command {
-  static description = `show currently selected project`
+  static description = `show currently selected application`
 
   static flags = {}
 
@@ -11,7 +11,7 @@ export default class Projects extends Command {
   public async run() {
     const projectId = getProjectId()
     this.log()
-    this.log(`Currently selected projectId: ${projectId}`)
+    this.log(`Currently selected appId: ${projectId}`)
     this.log()
   }
 }

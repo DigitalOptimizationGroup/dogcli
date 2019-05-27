@@ -110,6 +110,9 @@
       "autocomplete": {
         "description": "setup optional autocomplete"
       },
+      "cms": {
+        "description": "work with your CMS"
+      },
       "domains": {
         "description": "manage SSL and domains for your app"
       },

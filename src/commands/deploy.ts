@@ -3,8 +3,11 @@ import {createHash} from 'crypto'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
 import {build} from '../build'
-import {cli} from 'cli-ux'
+import {cli, config} from 'cli-ux'
 import {getProjectId} from '../get-project-id'
+import {configstore} from '../configstore'
+import * as inquirer from 'inquirer'
+import * as fs from 'fs'
 
 export default class Deploy extends Command {
   static description = 'deploy your application'
@@ -20,6 +23,7 @@ export default class Deploy extends Command {
       name: 'color',
       description: 'the backend color to deploy to',
       required: true,
+      // options wants to be dynamic - pull from config?
       options: ['blue', 'green']
     },
     {
@@ -43,6 +47,11 @@ export default class Deploy extends Command {
     functions: flags.string({
       char: 'f',
       default: 'functions.js'
+    }),
+    selectAppType: flags.boolean({
+      char: 'a',
+      description:
+        'Overwrite your default app type for this deploy only (rerun init if you want to change default)'
     })
   }
 
@@ -53,27 +62,86 @@ export default class Deploy extends Command {
     const API = apiClient(this)
     const projectId = getProjectId()
 
-    this.log('Building app for deployment...')
+    this.log('Preparing for deployment...')
     this.log()
-    const script = await build(
-      'build',
-      args.color,
-      flags.routes || 'routes.json',
-      flags.functions
-    )
+
+    var appTypeId: string = configstore.get('appType')
+
+    if (flags.selectAppType) {
+      const templates = await API.post(`/api/v1/available-templates`)
+        .then(response => {
+          return response.data
+        })
+        .catch(err => {
+          console.log('err', err)
+        })
+      const answer: {script: string} = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'script',
+          message: 'Select App type for this deploy:',
+          choices: templates.appTypes
+        }
+      ])
+      appTypeId = templates.appTypes.find(
+        (app: {name: string}) => app.name === answer.script
+      ).id
+    }
+
+    var script: string = ''
+    if (appTypeId === 'cra') {
+      this.log()
+      this.log('Building app for deployment...')
+      this.log()
+
+      script = await build(
+        'build',
+        args.color,
+        flags.routes || 'routes.json',
+        flags.functions
+      )
+
+      this.log(`
+App to deploy:
+
+app type:        [Create React App]
+build folder:    [${args.path}/build]
+target project:  [${projectId}]
+target color:    [${args.color}]
+force flag:      [${flags.force ? true : false}]
+`)
+    } else if (appTypeId === 'rawWorker') {
+      const scriptPath = await cli.prompt(
+        'Enter the relative path to your raw script file'
+      )
+      this.log()
+
+      script = fs.readFileSync(scriptPath, 'utf8')
+      this.log(`App to deploy:
+
+app type:        [Raw Worker Script]
+script path:     [${scriptPath}]
+target project:  [${projectId}]
+target color:    [${args.color}]
+force flag:      [${flags.force ? true : false}]
+`)
+    } else if (appTypeId === 'awsLambdaGateway') {
+      this.log(`
+To deploy the Lambda Gateway run:
+
+dog lambda
+`)
+      process.exit()
+    } else {
+      this.log(
+        "Either your AppType is not set or it's undefined. Trying running dog apps:init."
+      )
+      process.exit()
+    }
 
     const bundleHash = createHash('sha1') // we need to verify the upload is :+1:
     bundleHash.update(script)
     const bundleDigest = bundleHash.digest('hex')
-
-    this.log(`Services to deploy:
-
-build folder:    [${args.path}/build]
-target project:  [${projectId}]
-target color:    [${args.color}]
-bundle hash:     [${bundleDigest}]
-force flag:      [${flags.force ? true : false}]
-`)
 
     this.log()
     const response = await cli.prompt(
