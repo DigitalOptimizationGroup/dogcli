@@ -59,11 +59,6 @@ dog proxy:canary --default blue --canary green --weight 20
         process.exit()
       })
 
-    console.log({
-      config,
-      urls
-    })
-
     this.log(`Project & domain(s) this will apply to:
 
 target project:  [${projectId}]

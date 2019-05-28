@@ -5,6 +5,8 @@ import {build} from '../build'
 import {askForScriptPath} from '../ask-for-script-path'
 import {configstore} from '../configstore'
 import * as fs from 'fs'
+var path = require('path')
+const logSymbols = require('log-symbols')
 
 export default class Dev extends Command {
   static description = `run a local server for development`
@@ -68,13 +70,13 @@ export default class Dev extends Command {
 
       script = fs.readFileSync(scriptPath, 'utf8')
     } else if (appTypeId === 'awsLambdaGateway') {
-      this.log(`
-Lambda dev not yet supported
-`)
-      process.exit()
+      script = fs.readFileSync(
+        path.join(__dirname, '../dev-lambda-proxy.js'),
+        'utf8'
+      )
     } else {
       this.log(
-        "Either your AppType is not set or it's undefined. Trying running dog apps:init."
+        'Your Application Type has not been set. Trying running dog apps:init.'
       )
       process.exit()
     }
@@ -82,6 +84,24 @@ Lambda dev not yet supported
     const port = flags.port || 3000
     let server = new Cloudworker(script, {debug: true}).listen(port)
     console.log(`Listening on ${port}`)
+
+    process.on('uncaughtException', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        this.log(`
+${logSymbols.error} Port ${err.port} is in use 
+        
+Please use the --port flag to set a different port:
+
+dog start --port ${err.port + 1}
+`)
+      } else {
+        this.log(
+          logSymbols.error,
+          'Error starting development server, please try again.'
+        )
+      }
+      process.exit(1)
+    })
 
     let stopping = false
     let reloading = false

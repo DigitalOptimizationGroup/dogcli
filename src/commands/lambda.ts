@@ -71,6 +71,11 @@ force flag:      [${flags.force ? true : false}]
         })
           .then(res => {
             clearInterval(intervalId)
+            if (!res.status || res.status !== 200) {
+              console.log(
+                'Sorry that failed, you could try it again or contact us.'
+              )
+            }
             resolve(res)
           })
           .catch(err => {
