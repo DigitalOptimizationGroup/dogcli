@@ -26,11 +26,6 @@ export default class Deploy extends Command {
       required: true,
       // options wants to be dynamic - pull from config?
       options: ['blue', 'green']
-    },
-    {
-      name: 'path',
-      description: 'path to root folder',
-      default: process.cwd()
     }
   ]
 
@@ -106,7 +101,6 @@ export default class Deploy extends Command {
 App to deploy:
 
 app type:        [Create React App]
-build folder:    [${args.path}/build]
 target project:  [${projectId}]
 target color:    [${args.color}]
 force flag:      [${flags.force ? true : false}]

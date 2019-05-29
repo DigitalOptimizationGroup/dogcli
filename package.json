@@ -1,7 +1,7 @@
 {
   "name": "@digitaloptgroup/cli",
   "description": "Digital Optimization Group Edge Platform CLI",
-  "version": "0.0.1-dev-preview-13",
+  "version": "0.0.1-dev-preview-14",
   "author": "Digital Optimization Group LLC",
   "bin": {
     "dog": "./bin/run"
