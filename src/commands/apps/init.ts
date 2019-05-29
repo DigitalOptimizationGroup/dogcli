@@ -71,6 +71,17 @@ export default class Projects extends Command {
       configstore.set('scriptPath', scriptPath)
     }
 
+    if (appType === 'cra') {
+      fs.appendFileSync(
+        '.env',
+        `
+REACT_APP_DOG_PROJECT_ID=${answer.appId}
+REACT_APP_DOG_API_URL=https://api-${answer.appId}.edgeyates.com
+REACT_APP_DOG_API_KEY=developer-preview-${answer.appId}
+`
+      )
+    }
+
     configstore.set('projectId', answer.appId)
     configstore.set('appType', appType)
 

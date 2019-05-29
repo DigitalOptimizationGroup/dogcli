@@ -4,6 +4,7 @@ var memoryFs = new MemoryFileSystem()
 var fs = require('fs')
 var prettyBytes = require('pretty-bytes')
 const path = require('path')
+const rimraf = require('rimraf')
 import {bundleAssets} from './cf-assets'
 import {configstore} from './configstore'
 
@@ -75,7 +76,11 @@ export function build(
   compiler.resolvers.normal.fileSystem = memoryFs
   compiler.outputFileSystem = memoryFs
 
+  rimraf.sync(path.resolve(__dirname, 'tmp-dog-build'))
+  fs.mkdirSync(path.resolve(__dirname, 'tmp-dog-build'))
+
   let cacheConfig = JSON.stringify({'/': []})
+
   if (routesFile !== undefined) {
     try {
       cacheConfig = fs.readFileSync(routesFile, 'utf8')
@@ -83,7 +88,7 @@ export function build(
   }
 
   fs.writeFileSync(
-    path.resolve(__dirname, 'tmp/pre-cache-manifest.json'),
+    path.resolve(__dirname, 'tmp-dog-build/pre-cache-manifest.json'),
     cacheConfig
   )
 
@@ -94,11 +99,17 @@ export function build(
     } catch (e) {}
   }
 
-  fs.writeFileSync(path.resolve(__dirname, 'tmp/functions.js'), functionFile)
+  fs.writeFileSync(
+    path.resolve(__dirname, 'tmp-dog-build/functions.js'),
+    functionFile
+  )
 
   const assets = bundleAssets(buildDir)
 
-  fs.writeFileSync(path.resolve(__dirname, 'tmp/client-assets.js'), assets)
+  fs.writeFileSync(
+    path.resolve(__dirname, 'tmp-dog-build/client-assets.js'),
+    assets
+  )
 
   return new Promise<string>((res, rej) => {
     compiler.run((err: any, stats: any) => {

@@ -1,8 +1,8 @@
 import mime from 'mime'
-import assets from '../../tmp/client-assets'
+import assets from '../../tmp-dog-build/client-assets'
 import {cache} from './cache'
-import preCacheManifest from '../../tmp/pre-cache-manifest.json'
-import {functions} from '../../tmp/functions'
+import preCacheManifest from '../../tmp-dog-build/pre-cache-manifest.json'
+import {functions} from '../../tmp-dog-build/functions'
 import {performanceHead, performanceScript} from './performance-scripts'
 const cookie = require('cookie')
 const querystring = require('querystring')
