@@ -1,9 +1,13 @@
-import stableStringify from 'fast-stable-stringify'
-import sha1 from 'sha1'
+export const argsToString = args => {
+  Object.keys(args)
+    .map(key => `${key}_${args[key]}`)
+    .sort()
+    .join('.')
+}
 
 const resolve = async ({userId, queryName, args}) => {
   return Promise.resolve([
-    `${queryName}_${sha1(stableStringify(args))}`,
+    `${queryName}_${argsToString(args)}`,
     await fetch(
       `https://api-${PROJECT_ID}.edgeyates.com/resolve-feature/${queryName}?userId=${userId}&args=${encodeURIComponent(
         JSON.stringify(args)

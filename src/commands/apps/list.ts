@@ -17,12 +17,17 @@ export default class ListApps extends Command {
     this.log('Refreshing apps list...')
     this.log()
 
-    const projects = await API.post(`/api/v1/refresh-projects`)
+    const {projects} = await API.post(`/api/v1/refresh-projects`)
       .then(response => {
-        return response.data || []
+        if (response.status !== 200) {
+          console.log('Error, please try again.')
+          process.exit()
+        }
+        return response.data || {}
       })
       .catch(err => {
-        console.log('err', err)
+        console.log('Error, please try again.')
+        process.exit()
       })
 
     projects.forEach((projectId: string) => {

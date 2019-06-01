@@ -1,9 +1,10 @@
 import {Command} from '@oclif/command'
 import {getProjectId} from '../../get-project-id'
 import {apiClient, processResponse} from '../../api'
+import {configstore} from '../../configstore'
 
 export default class Show extends Command {
-  static description = 'show your local proxy config'
+  static description = 'show current local & deployed proxy configs'
 
   static flags = {}
 
@@ -46,12 +47,16 @@ export default class Show extends Command {
     // }
 
     this.log(`
-Current proxy configuration:
+Current proxy configurations:
 
 project:  [${projectId}]
 ${urls.map(url => `target domain:   [${url}]`).join('\n')}
-raw config:
+
+production config:
 ${JSON.stringify(config, null, 4)}
+
+local config:
+${JSON.stringify(configstore.get('proxyConfig'), null, 4)}
 
 `)
   }

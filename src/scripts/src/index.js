@@ -107,14 +107,14 @@ async function handleRequest(event) {
             '<head>',
             `<head><script>window.__APP_CONFIG__=${JSON.stringify(
               requestContext
-            )}</script><script>${performanceHead}</script>`
+            )}</script>` //<script>${performanceHead}</script>`
           )
           // inject into the body
           .replace(
             placeHolder,
             `${placeHolder}<script>window.__APP_CACHE__=${JSON.stringify(
               cacheData
-            )}</script><script>${performanceScript}</script>`
+            )}</script>` //<script>${performanceScript}</script>`
           ),
         {
           status: assets[assetToServe] ? 200 : 404,

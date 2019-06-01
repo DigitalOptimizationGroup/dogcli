@@ -1,9 +1,9 @@
-import {apiClient, processResponse} from '../api'
+import {apiClient, processResponse} from '../src/api'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
 import {cli} from 'cli-ux'
 import * as fs from 'fs'
-import {getProjectId} from '../get-project-id'
+import {getProjectId} from '../src/get-project-id'
 
 export default class Deploy extends Command {
   static description = 'deploy and proxy requests to a lambda function'
@@ -72,18 +72,28 @@ force flag:      [${flags.force ? true : false}]
           .then(res => {
             clearInterval(intervalId)
             if (!res.status || res.status !== 200) {
+              if (res.data.message) {
+                console.log('Failed: ', res.data.message)
+                process.exit()
+              }
               console.log(
                 'Sorry that failed, you could try it again or contact us.'
               )
+              process.exit()
             }
             resolve(res)
           })
           .catch(err => {
-            console.log(
-              'Sorry that failed, you could try it again or send us this id: ',
-              err.response.data
-            )
             clearInterval(intervalId)
+            if (err && err.response && err.response.data) {
+              console.log(
+                'Sorry that failed, you could try it again or send us this id: ',
+                err && err.response && err.response.data
+              )
+              process.exit()
+            }
+            console.log(err && err.response && err.response.message)
+            process.exit()
           })
       })
 
