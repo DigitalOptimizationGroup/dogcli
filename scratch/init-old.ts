@@ -5,7 +5,6 @@ import * as inquirer from 'inquirer'
 import {cli} from 'cli-ux'
 import * as fs from 'fs'
 import {askForScriptPath} from '../../ask-for-script-path'
-var npm = require('npm-programmatic')
 
 export default class Projects extends Command {
   static description = `initalize an app in this directory (should be the root of your project)`
@@ -67,29 +66,20 @@ export default class Projects extends Command {
     ).id
 
     var scriptPath: string = ''
-    var configFileName = 'dog-app-config.js'
     if (appType === 'rawWorker') {
       scriptPath = await askForScriptPath()
       configstore.set('scriptPath', scriptPath)
-    } else {
-      this.log()
-      this.log('Installing dependencies...')
-      const npmTemplate = '@digitaloptgroup/cra-template'
+    }
 
-      try {
-        await npm.install([npmTemplate], {
-          save: true
-        })
-        fs.copyFileSync(
-          `./node_modules/${npmTemplate}/src/app-config.js`,
-          './${configFileName}'
-        )
-        this.log('Successfully installed dependencies.')
-      } catch (e) {
-        this.log(
-          'Unable to install dependencies, please check your details and try again.'
-        )
-      }
+    if (appType === 'cra') {
+      fs.appendFileSync(
+        '.env',
+        `
+REACT_APP_DOG_PROJECT_ID=${answer.appId}
+REACT_APP_DOG_API_URL=https://api-${answer.appId}.edgeyates.com
+REACT_APP_DOG_API_KEY=developer-preview-${answer.appId}
+`
+      )
     }
 
     configstore.set('projectId', answer.appId)
@@ -105,9 +95,6 @@ app type:     [${answer.script}] ${
       }
 `
     )
-    if (appType !== 'rawWorker') {
-      this.log(`Edit your apps config at ./${configFileName}`)
-    }
     this.log()
   }
 }

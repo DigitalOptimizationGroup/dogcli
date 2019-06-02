@@ -11,7 +11,7 @@ import * as fs from 'fs'
 import {askForScriptPath} from '../../ask-for-script-path'
 
 export default class Deploy extends Command {
-  static description = 'deploy your application'
+  static description = 'deploy your application to a chosen color'
 
   static examples = [
     'dog deploy blue',
