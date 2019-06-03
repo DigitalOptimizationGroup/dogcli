@@ -5,7 +5,10 @@ import * as inquirer from 'inquirer'
 import {cli} from 'cli-ux'
 import * as fs from 'fs'
 import {askForScriptPath} from '../../ask-for-script-path'
+import {execSync} from '../../exec-sync'
+const logSymbols = require('log-symbols')
 var npm = require('npm-programmatic')
+const path = require('path')
 
 export default class Projects extends Command {
   static description = `initalize an app in this directory (should be the root of your project)`
@@ -47,6 +50,11 @@ export default class Projects extends Command {
         console.log('err', err)
       })
 
+    const appTypes = [
+      {name: 'Raw Script', value: 'rawWorker'},
+      {name: 'Application Script', value: 'appScript'}
+    ]
+
     const answer: {appId: string; script: string} = await inquirer.prompt([
       {
         type: 'list',
@@ -58,56 +66,82 @@ export default class Projects extends Command {
         type: 'list',
         name: 'script',
         message: 'Select an App type:',
-        choices: apps.appTypes
+        choices: appTypes //apps.appTypes
       }
     ])
 
-    const appType = apps.appTypes.find(
-      (app: {name: string}) => app.name === answer.script
-    ).id
-
-    var scriptPath: string = ''
-    var configFileName = 'dog-app-config.js'
-    if (appType === 'rawWorker') {
-      scriptPath = await askForScriptPath()
-      configstore.set('scriptPath', scriptPath)
-    } else {
-      this.log()
-      this.log('Installing dependencies...')
-      const npmTemplate = '@digitaloptgroup/cra-template'
-
-      try {
-        await npm.install([npmTemplate], {
-          save: true
-        })
-        fs.copyFileSync(
-          `./node_modules/${npmTemplate}/src/app-config.js`,
-          './${configFileName}'
-        )
-        this.log('Successfully installed dependencies.')
-      } catch (e) {
-        this.log(
-          'Unable to install dependencies, please check your details and try again.'
-        )
-      }
-    }
+    const appType = answer.script
 
     configstore.set('projectId', answer.appId)
     configstore.set('appType', appType)
 
-    this.log()
-    this.log(
-      `Successfully configured this directory:
+    var scriptPath: string = ''
+
+    if (appType === 'rawWorker') {
+      scriptPath = await askForScriptPath()
+      configstore.set('scriptPath', scriptPath)
+
+      this.log()
+      this.log(
+        `Successfully configured this directory:
 
 app Id:       [${answer.appId}]
-app type:     [${answer.script}] ${
-        appType === 'rawWorker' ? `\nScript path:  [${scriptPath}]` : ''
-      }
+app type:     [rawWorker]
 `
-    )
-    if (appType !== 'rawWorker') {
-      this.log(`Edit your apps config at ./${configFileName}`)
+      )
+    } else {
+      const npmTemplate = '@digitaloptgroup/adn-apps-cra'
+      configstore.set('npmTemplate', npmTemplate)
+
+      const moduleInstalled = fs.existsSync(
+        path.join(process.cwd(), 'node_modules', npmTemplate)
+      )
+
+      if (!moduleInstalled) {
+        try {
+          this.log()
+          this.log('Installing dependencies...')
+          const useYarn = fs.existsSync(path.join(process.cwd(), 'yarn.lock'))
+
+          if (useYarn) {
+            execSync(`yarnpkg`, ['add', npmTemplate])
+          } else {
+            execSync(`npm`, ['install', '--save', npmTemplate])
+          }
+        } catch (e) {
+          this.log()
+          this.log(
+            logSymbols.error,
+            'Unable to install dependencies, please check your details and try again.'
+          )
+          this.log()
+          process.exit()
+        }
+      }
+      const appModule = require(path.join(
+        process.cwd(),
+        'node_modules',
+        npmTemplate
+      ))
+
+      const {initApp} = appModule
+
+      await initApp()
+      this.log()
+      this.log(
+        `Successfully configured this directory:
+
+app Id:       [${answer.appId}]
+app type:     [${appType}]
+app template: [${npmTemplate}]
+
+To build your app run:
+
+dog apps:build
+`
+      )
     }
+
     this.log()
   }
 }

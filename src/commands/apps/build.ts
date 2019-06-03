@@ -1,6 +1,7 @@
 import {Command} from '@oclif/command'
 import {configstore} from '../../configstore'
 import * as fs from 'fs'
+const path = require('path')
 
 export default class BuildApp extends Command {
   static description = 'build your application from a template script'
@@ -34,8 +35,33 @@ export default class BuildApp extends Command {
     this.log('Building app for deployment...')
     this.log()
 
-    const templatePackage = configstore.get('templatePackageName')
-    const {build} = require(`${templatePackage}/build`)
+    const npmTemplate = configstore.get('npmTemplate')
+
+    if (npmTemplate === undefined) {
+      this.log()
+      this.log('App not initialized properly. Run dog apps:init')
+      this.log()
+      process.exit()
+    }
+
+    const moduleInstalled = fs.existsSync(
+      path.join(process.cwd(), 'node_modules', npmTemplate)
+    )
+
+    if (!moduleInstalled) {
+      this.log(`Template module not found. Please install ${npmTemplate}`)
+      this.log()
+      process.exit()
+    }
+
+    const appModule = require(path.join(
+      process.cwd(),
+      'node_modules',
+      npmTemplate
+    ))
+
+    const {build} = appModule
+
     const script = await build() // should we pass the config in here? then a flag could give it a different path?
 
     fs.writeFileSync('./dist/dog-script.js', script)

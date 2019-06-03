@@ -33,6 +33,7 @@
     "conf": "^4.0.2",
     "configstore": "^4.0.0",
     "cookie": "^0.4.0",
+    "cross-spawn": "^6.0.5",
     "css-loader": "^2.1.1",
     "diff": "^4.0.1",
     "dotenv": "^6.1.0",
