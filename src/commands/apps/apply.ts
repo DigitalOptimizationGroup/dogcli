@@ -10,13 +10,13 @@ import * as inquirer from 'inquirer'
 import * as fs from 'fs'
 import {askForScriptPath} from '../../ask-for-script-path'
 
-export default class Deploy extends Command {
+export default class ApplyApp extends Command {
   static description = 'deploy your application to a chosen color'
 
   static examples = [
     'dog deploy blue',
     'dog deploy blue --force',
-    'dog deploy green --path /build'
+    'dog deploy green --path ./custom/script.js'
   ]
 
   static args = [
@@ -31,30 +31,13 @@ export default class Deploy extends Command {
 
   public static flags = {
     force: flags.boolean(),
-    // functions: flags.boolean({
-    //   char: 'f'
-    // }),
-    // functionsPath: flags.string(),
-    // staticPath: flags.string()
-    routes: flags.string({
-      char: 'r',
-      description: 'relative path to your routes.json file'
-    }),
-    functions: flags.string({
-      char: 'f',
-      default: 'functions.js'
-    }),
-    selectAppType: flags.boolean({
-      char: 'a',
-      description:
-        'Overwrite your default app type for this deploy only (rerun init if you want to change default)'
+    path: flags.string({
+      char: 'p'
     })
   }
 
-  // get project-id from .yaml config
-
   async run() {
-    const {args, flags} = this.parse(Deploy)
+    const {args, flags} = this.parse(ApplyApp)
     const API = apiClient(this)
     const projectId = getProjectId()
 
@@ -63,79 +46,35 @@ export default class Deploy extends Command {
 
     var appTypeId: string = configstore.get('appType')
 
-    if (flags.selectAppType) {
-      const templates = await API.post(`/api/v1/available-templates`)
-        .then(response => {
-          return response.data
-        })
-        .catch(err => {
-          console.log('err', err)
-        })
-      const answer: {script: string} = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'script',
-          message: 'Select App type for this deploy:',
-          choices: templates.appTypes
-        }
-      ])
-      appTypeId = templates.appTypes.find(
-        (app: {name: string}) => app.name === answer.script
-      ).id
+    var script: string = ''
+    var scriptPath: string = './.dog/index.js'
+    if (appTypeId === 'rawWorker') {
+      if (flags.path !== undefined) {
+        scriptPath = flags.path
+        script = fs.readFileSync(flags.path, 'utf8')
+      } else if (configstore.get('scriptPath')) {
+        scriptPath = configstore.get('scriptPath')
+        script = fs.readFileSync(configstore.get('scriptPath'), 'utf8')
+      } else {
+        scriptPath = await askForScriptPath()
+        this.log()
+        script = fs.readFileSync(scriptPath, 'utf8')
+      }
+    } else {
+      script = fs.readFileSync(scriptPath, 'utf8')
     }
 
-    var script: string = ''
-    if (appTypeId === 'cra') {
-      this.log()
-      this.log('Building app for deployment...')
-      this.log()
-
-      script = await build(
-        'build',
-        args.color,
-        flags.routes || 'routes.json',
-        flags.functions
-      )
-
-      this.log(`
+    this.log(`
 App to deploy:
 
-app type:        [Create React App]
-target project:  [${projectId}]
-target color:    [${args.color}]
-force flag:      [${flags.force ? true : false}]
-`)
-    } else if (appTypeId === 'rawWorker') {
-      var scriptPath = configstore.get('scriptPath')
-      if (scriptPath === undefined) {
-        scriptPath = await askForScriptPath()
-      }
-      this.log()
-
-      script = fs.readFileSync(scriptPath, 'utf8')
-      this.log(`App to deploy:
-
-app type:        [Raw Worker Script]
+app type:        [${appTypeId}]
 script path:     [${scriptPath}]
 target project:  [${projectId}]
 target color:    [${args.color}]
 force flag:      [${flags.force ? true : false}]
 `)
-    } else if (appTypeId === 'awsLambdaGateway') {
-      this.log(`
-To deploy the Lambda Gateway run:
 
-dog lambda
-`)
-      process.exit()
-    } else {
-      this.log(
-        "Either your AppType is not set or it's undefined. Trying running dog apps:init."
-      )
-      process.exit()
-    }
-
-    const bundleHash = createHash('sha1') // we need to verify the upload is :+1:
+    const bundleHash = createHash('sha1')
     bundleHash.update(script)
     const bundleDigest = bundleHash.digest('hex')
 

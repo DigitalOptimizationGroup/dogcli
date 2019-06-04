@@ -2,6 +2,7 @@ import {Command} from '@oclif/command'
 import {configstore} from '../../configstore'
 import * as fs from 'fs'
 const path = require('path')
+import {createHash} from 'crypto'
 
 export default class BuildApp extends Command {
   static description = 'build your application from a template script'
@@ -54,22 +55,35 @@ export default class BuildApp extends Command {
       process.exit()
     }
 
-    const appModule = require(path.join(
+    const {build} = require(path.join(
       process.cwd(),
       'node_modules',
-      npmTemplate
+      npmTemplate,
+      'lib/build'
     ))
-
-    const {build} = appModule
 
     const script = await build() // should we pass the config in here? then a flag could give it a different path?
 
-    fs.writeFileSync('./dist/dog-script.js', script)
+    const bundleHash = createHash('sha1')
+    bundleHash.update(script)
+    const bundleDigest = bundleHash.digest('hex')
+
+    configstore.set('bundleDigest', bundleDigest)
+
+    if (!fs.existsSync('.dog')) {
+      fs.mkdirSync(path.resolve('.dog'))
+    }
+
+    fs.writeFileSync('./.dog/index.js', script)
 
     this.log(`
 Build complete. Run the following command to deploy:
 
 dog apps:apply COLOR
+
+Examples:
+dog apps:apply blue
+dog apps:apply blue --force
 `)
   }
 }
