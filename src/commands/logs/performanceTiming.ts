@@ -7,7 +7,7 @@ export default class PerformanceTimingLogs extends Command {
 
   static flags = {
     property: flags.string({
-      char: 'p',
+      char: 't',
       description:
         'filter by performance timing property: \n' +
         [
@@ -23,16 +23,20 @@ export default class PerformanceTimingLogs extends Command {
           'tti'
         ].join('\n')
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(PerformanceTimingLogs)
 
-    streamLogs('performanceTiming', flags.lineType, 'property', flags.property)
+    streamLogs(
+      'performanceTiming',
+      flags.prettyjson,
+      'property',
+      flags.property
+    )
   }
 }

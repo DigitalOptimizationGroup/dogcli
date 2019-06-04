@@ -7,13 +7,12 @@ export default class PageScrollingLogs extends Command {
 
   static flags = {
     pathname: flags.string({
-      char: 'p',
+      char: 'n',
       description: 'filter by pathname (/pricing)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -22,6 +21,6 @@ export default class PageScrollingLogs extends Command {
   async run() {
     const {flags} = this.parse(PageScrollingLogs)
 
-    streamLogs('pageScrolling', flags.lineType, 'pathname', flags.pathname)
+    streamLogs('pageScrolling', flags.prettyjson, 'pathname', flags.pathname)
   }
 }

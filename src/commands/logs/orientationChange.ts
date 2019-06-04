@@ -9,10 +9,9 @@ export default class OrientationChangeLogs extends Command {
       char: 'r',
       description: 'filter by a single rid (get it from server or proxy logs)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -21,6 +20,6 @@ export default class OrientationChangeLogs extends Command {
   async run() {
     const {flags} = this.parse(OrientationChangeLogs)
 
-    streamLogs('orientationChange', flags.lineType, 'rid', flags.rid)
+    streamLogs('orientationChange', flags.prettyjson, 'rid', flags.rid)
   }
 }

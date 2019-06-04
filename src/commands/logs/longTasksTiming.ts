@@ -11,16 +11,15 @@ export default class LongTasksTimingLongs extends Command {
       char: 'c',
       description: 'filter by backend color (blue)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(LongTasksTimingLongs)
 
-    streamLogs('longTasksTiming', flags.lineType, 'color', flags.color)
+    streamLogs('longTasksTiming', flags.prettyjson, 'color', flags.color)
   }
 }

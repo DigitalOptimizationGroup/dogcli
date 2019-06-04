@@ -7,19 +7,18 @@ export default class TimeOnPageLogs extends Command {
 
   static flags = {
     pathname: flags.string({
-      char: 'p',
+      char: 'n',
       description: 'filter by pathname (/pricing)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(TimeOnPageLogs)
 
-    streamLogs('timeOnPage', flags.lineType, 'pathname', flags.pathname)
+    streamLogs('timeOnPage', flags.prettyjson, 'pathname', flags.pathname)
   }
 }

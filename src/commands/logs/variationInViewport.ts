@@ -9,10 +9,9 @@ export default class VariationInViewportLogs extends Command {
       char: 'f',
       description: 'filter by featureId'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -21,7 +20,7 @@ export default class VariationInViewportLogs extends Command {
 
     streamLogs(
       'variationInViewport',
-      flags.lineType,
+      flags.prettyjson,
       'featureId',
       flags.featureId
     )

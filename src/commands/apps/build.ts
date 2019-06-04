@@ -1,4 +1,4 @@
-import {Command} from '@oclif/command'
+import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
 import * as fs from 'fs'
 const path = require('path')
@@ -11,7 +11,12 @@ export default class BuildApp extends Command {
 
   static args = []
 
-  public static flags = {}
+  public static flags = {
+    pathToConfig: flags.string({
+      char: 'p',
+      default: './dog-app-config.json'
+    })
+  }
 
   async run() {
     const {args, flags} = this.parse(BuildApp)
@@ -62,7 +67,20 @@ export default class BuildApp extends Command {
       'lib/build'
     ))
 
-    const script = await build() // should we pass the config in here? then a flag could give it a different path?
+    var appConfig = {}
+    try {
+      appConfig = JSON.parse(
+        fs.readFileSync(
+          path.join(process.cwd(), flags.pathToConfig as string),
+          'utf8'
+        )
+      )
+    } catch (e) {
+      this.log('Failed to load your App Config file.')
+      process.exit()
+    }
+
+    const script = await build(appConfig)
 
     const bundleHash = createHash('sha1')
     bundleHash.update(script)

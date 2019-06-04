@@ -10,16 +10,15 @@ export default class OutcomeLogs extends Command {
       char: 'o',
       description: 'filter by outcome (addToCart)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(OutcomeLogs)
 
-    streamLogs('outcome', flags.lineType, 'outcome', flags.outcome)
+    streamLogs('outcome', flags.prettyjson, 'outcome', flags.outcome)
   }
 }

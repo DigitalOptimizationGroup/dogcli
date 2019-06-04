@@ -90,7 +90,39 @@ app type:     [rawWorker]
 `
       )
     } else {
-      const npmTemplate = '@digitaloptgroup/adn-apps-cra'
+      const npmModules = [
+        {name: 'Enter module not listed', value: 'manual'},
+        {
+          name: 'Create React App (@digitaloptgroup/adn-apps-cra)',
+          value: '@digitaloptgroup/adn-apps-cra'
+        },
+        {
+          name:
+            'Lambda Edge Gateway (@digitaloptgroup/adn-apps-lambda-edge-gateway)',
+          value: '@digitaloptgroup/adn-apps-lambda-edge-gateway'
+        }
+      ]
+
+      const {npmModule}: {npmModule: string} = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'npmModule',
+          message: 'Select the npm module for your desired application:',
+          choices: npmModules
+        }
+      ])
+
+      var npmTemplate = ''
+      if (npmModule === 'manual') {
+        npmTemplate = await cli.prompt(
+          'Enter the npm module for your desired application'
+        )
+      } else {
+        npmTemplate = npmModule
+      }
+
+      //const npmTemplate = '@digitaloptgroup/adn-apps-cra'
+
       configstore.set('npmTemplate', npmTemplate)
 
       const moduleInstalled = fs.existsSync(
@@ -100,7 +132,8 @@ app type:     [rawWorker]
       if (!moduleInstalled) {
         try {
           this.log()
-          this.log('Installing dependencies...')
+          this.log(`Installing ${npmTemplate}...`)
+          this.log()
           const useYarn = fs.existsSync(path.join(process.cwd(), 'yarn.lock'))
 
           if (useYarn) {
@@ -118,13 +151,12 @@ app type:     [rawWorker]
           process.exit()
         }
       }
-      const appModule = require(path.join(
+      const {initApp} = require(path.join(
         process.cwd(),
         'node_modules',
-        npmTemplate
+        npmTemplate,
+        '/lib/init-app'
       ))
-
-      const {initApp} = appModule
 
       await initApp()
       this.log()

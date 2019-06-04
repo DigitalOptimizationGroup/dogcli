@@ -10,10 +10,9 @@ export default class CaughtErrorLogs extends Command {
       char: 'c',
       description: 'filter by backend color (blue)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -22,6 +21,6 @@ export default class CaughtErrorLogs extends Command {
   async run() {
     const {flags} = this.parse(CaughtErrorLogs)
 
-    streamLogs('caughtError', flags.lineType, 'color', flags.color)
+    streamLogs('caughtError', flags.prettyjson, 'color', flags.color)
   }
 }

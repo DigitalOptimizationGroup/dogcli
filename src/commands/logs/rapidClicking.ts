@@ -5,16 +5,15 @@ export default class RapidClickingLogs extends Command {
   static description = 'incidences of "rapid/rage clicking" in your application'
 
   static flags = {
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(RapidClickingLogs)
 
-    streamLogs('rapidClicking', flags.lineType)
+    streamLogs('rapidClicking', flags.prettyjson)
   }
 }

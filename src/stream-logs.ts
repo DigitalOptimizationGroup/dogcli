@@ -1,17 +1,18 @@
-import {configstore} from './configstore'
 import {REALTIME_LOGS_URL} from './cli-config'
 import * as EventSource from 'eventsource'
+import {auth} from './auth'
+import {getProjectId} from './get-project-id'
 
 export const streamLogs = (
   logType: string,
-  lineType: string | undefined,
+  prettyjson: boolean,
   filterBy?: string | undefined,
   filterValue?: string | undefined
 ) => {
   console.log('Connecting to realtime log stream...')
 
-  const token = configstore.get('token')
-  const projectId = configstore.get('projectId')
+  const token = auth.get('token')
+  const projectId = getProjectId()
 
   const filters =
     filterBy && filterValue
@@ -32,14 +33,13 @@ export const streamLogs = (
     const logLines = JSON.parse(message.data)
     if (logLines.path === '/' && message.data !== null && logLines.data) {
       Object.values(logLines.data).forEach(line => {
-        if (lineType === 'prettyjson') {
+        if (prettyjson) {
           console.log(JSON.stringify(line, null, 4))
           console.log()
         } else console.log(JSON.stringify(line))
       })
     } else if (message.data !== null && logLines && logLines.data) {
-      if (lineType === 'prettyjson')
-        console.log(JSON.stringify(logLines.data, null, 4))
+      if (prettyjson) console.log(JSON.stringify(logLines.data, null, 4))
       else console.log(JSON.stringify(logLines.data))
     }
   })

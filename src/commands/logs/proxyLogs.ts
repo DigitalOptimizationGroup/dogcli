@@ -9,10 +9,9 @@ export default class ProxyLogs extends Command {
       char: 'c',
       description: 'filter proxy logs by a single country code (such as US)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -21,6 +20,6 @@ export default class ProxyLogs extends Command {
   async run() {
     const {flags} = this.parse(ProxyLogs)
 
-    streamLogs('proxyLogs', flags.lineType, 'country', flags.country)
+    streamLogs('proxyLogs', flags.prettyjson, 'country', flags.country)
   }
 }

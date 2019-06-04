@@ -11,16 +11,15 @@ export default class FpsLogs extends Command {
       char: 'c',
       description: 'filter by backend color (blue)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(FpsLogs)
 
-    streamLogs('fps', flags.lineType, 'color', flags.color)
+    streamLogs('fps', flags.prettyjson, 'color', flags.color)
   }
 }

@@ -10,10 +10,9 @@ export default class MouseDistanceLogs extends Command {
       char: 'r',
       description: 'filter by a single rid (get it from server or proxy logs)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -22,6 +21,6 @@ export default class MouseDistanceLogs extends Command {
   async run() {
     const {args, flags} = this.parse(MouseDistanceLogs)
 
-    streamLogs('mouseDistance', flags.lineType, 'rid', flags.rid)
+    streamLogs('mouseDistance', flags.prettyjson, 'rid', flags.rid)
   }
 }

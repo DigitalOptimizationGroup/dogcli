@@ -10,16 +10,15 @@ export default class TimeOnSiteLogs extends Command {
       char: 'v',
       description: 'filter by visibility (hidden)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
   async run() {
     const {flags} = this.parse(TimeOnSiteLogs)
 
-    streamLogs('timeOnSite', flags.lineType, 'visibility', flags.visibility)
+    streamLogs('timeOnSite', flags.prettyjson, 'visibility', flags.visibility)
   }
 }

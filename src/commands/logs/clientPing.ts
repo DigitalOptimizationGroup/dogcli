@@ -9,10 +9,9 @@ export default class ClientPingLogs extends Command {
       char: 'c',
       description: 'filter by backend color (blue)'
     }),
-    lineType: flags.string({
-      char: 'l',
-      description: 'line type',
-      options: ['prettyjson', 'json']
+    prettyjson: flags.boolean({
+      char: 'p',
+      description: 'print pretty JSON'
     })
   }
 
@@ -21,6 +20,6 @@ export default class ClientPingLogs extends Command {
   async run() {
     const {args, flags} = this.parse(ClientPingLogs)
 
-    streamLogs('clientPing', flags.lineType, 'color', flags.color)
+    streamLogs('clientPing', flags.prettyjson, 'color', flags.color)
   }
 }
