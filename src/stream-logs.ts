@@ -9,7 +9,7 @@ export const streamLogs = (
   filterBy?: string | undefined,
   filterValue?: string | undefined
 ) => {
-  console.log('Connecting to realtime log stream...')
+  //console.log('Connecting to realtime log stream...')
 
   const token = auth.get('token')
   const projectId = getProjectId()
@@ -19,11 +19,11 @@ export const streamLogs = (
       ? `&filterBy=${filterBy}&filterValue=${filterValue}`
       : ''
 
-  if (filterBy && filterValue) {
-    console.log()
-    console.log(`Filtering ${filterBy} by ${filterValue}:`)
-    console.log()
-  }
+  // if (filterBy && filterValue) {
+  //   console.log()
+  //   console.log(`Filtering ${filterBy} by ${filterValue}:`)
+  //   console.log()
+  // }
 
   const url = `${REALTIME_LOGS_URL}?token=${token}&projectId=${projectId}&logType=${logType}${filters}`
 
