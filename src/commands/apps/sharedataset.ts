@@ -1,3 +1,7 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command} from '@oclif/command'
 import {apiClient} from '../../api'
 import {getProjectId} from '../../get-project-id'

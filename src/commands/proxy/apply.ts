@@ -1,3 +1,7 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command, flags} from '@oclif/command'
 import {apiClient, processResponse} from '../../api'
 import {configstore} from '../../configstore'

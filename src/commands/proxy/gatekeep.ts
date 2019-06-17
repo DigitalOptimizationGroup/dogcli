@@ -1,3 +1,7 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
@@ -8,9 +12,7 @@ const clc = require('cli-color')
 export default class Gatekeep extends Command {
   static description = 'create a gatekeeping url to any given origin'
 
-  static flags = {
-    
-  }
+  static flags = {}
 
   static args = [
     {

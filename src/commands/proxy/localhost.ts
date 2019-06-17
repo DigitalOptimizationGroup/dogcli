@@ -1,3 +1,7 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command} from '@oclif/command'
 import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
@@ -31,10 +35,22 @@ export default class Localhost extends Command {
 
     this.log('Creating SSH tunnel...')
 
-    const url = await ngrok.connect({
-      port: args.port
-      //  authtoken: '' // make optional for own ngrok account
-    })
+    var url = ''
+    try {
+      url = await ngrok.connect({
+        port: args.port
+        //  authtoken: '' // make optional for own ngrok account
+      })
+    } catch (e) {
+      this.log(`
+Failed to create tunnel.
+
+Make sure you're not already running a tunnel in aother tab. 
+      
+Please try again or contact us.
+`)
+      process.exit()
+    }
 
     this.log('Generating gatekeeping url...')
 
@@ -51,25 +67,33 @@ export default class Localhost extends Command {
       }
     )
       .then(response => {
-        this.log()
-        this.log(
-          `Visit this URL to access ${
-            args.origin
-          } (will attempt to automatically open it now):`
-        )
-        this.log(clc.bold(`${response.data}&nocache=yes`))
-        this.log()
+        if (response.status === 200) {
+          this.log()
+          this.log(
+            `Visit this URL to access your development server (will attempt to automatically open it now):`
+          )
+          this.log(clc.bold(`${response.data}&nocache=yes`))
+          this.log()
 
-        if (process.platform === 'linux') {
-          cli
-            .open(`${response.data}&nocache=yes`, {app: 'xdg-open'})
-            .catch(() => {})
+          if (process.platform === 'linux') {
+            cli
+              .open(`${response.data}&nocache=yes`, {app: 'xdg-open'})
+              .catch(() => {})
+          } else {
+            cli.open(`${response.data}&nocache=yes`).catch(() => {})
+          }
         } else {
-          cli.open(`${response.data}&nocache=yes`).catch(() => {})
+          this.log()
+          this.log(
+            'Failed to generate Gatekeeping URL. Please try again or contact us.'
+          )
+          this.log()
+          process.exit()
         }
       })
       .catch(err => {
         this.log('err', err)
+        process.exit()
       })
 
     this.log()

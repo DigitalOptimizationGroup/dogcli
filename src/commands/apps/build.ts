@@ -1,3 +1,7 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
 import * as fs from 'fs'

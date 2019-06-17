@@ -1,8 +1,11 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {apiClient, processResponse} from '../../api'
 import {createHash} from 'crypto'
 import {AxiosResponse} from 'axios'
 import {Command, flags} from '@oclif/command'
-import {build} from '../../build'
 import {cli, config} from 'cli-ux'
 import {getProjectId} from '../../get-project-id'
 import {configstore} from '../../configstore'
@@ -105,7 +108,11 @@ force flag:      [${flags.force ? true : false}]
       })
 
       processResponse(this, res, () => {
-        this.log(`Successfully deployed to your: ${args.color} backend`)
+        this.log(`
+Successfully deployed to your: ${args.color} backend
+
+https://${args.color}-${projectId}.edgefisher.com
+`)
       })
     } else {
       this.log('Exiting without deploying...')

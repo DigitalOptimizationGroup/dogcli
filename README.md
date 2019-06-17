@@ -16,7 +16,7 @@ $ npm install -g @digitaloptgroup/cli
 $ dog COMMAND
 running command...
 $ dog (-v|--version|version)
-@digitaloptgroup/cli/0.0.1-dev-preview-19 linux-x64 node-v10.14.2
+@digitaloptgroup/cli/0.0.1-dev-preview-30 linux-x64 node-v10.14.2
 $ dog --help [COMMAND]
 USAGE
   $ dog COMMAND
@@ -40,9 +40,6 @@ USAGE
 * [`dog domains:add HOSTNAME`](#dog-domainsadd-hostname)
 * [`dog domains:status HOSTNAME`](#dog-domainsstatus-hostname)
 * [`dog help [COMMAND]`](#dog-help-command)
-* [`dog lambda:deploy COLOR PATH`](#dog-lambdadeploy-color-path)
-* [`dog lambda:set`](#dog-lambdaset)
-* [`dog lambda:show`](#dog-lambdashow)
 * [`dog login`](#dog-login)
 * [`dog logout`](#dog-logout)
 * [`dog logs:assetLoadTime`](#dog-logsassetloadtime)
@@ -64,6 +61,11 @@ USAGE
 * [`dog logs:timeOnSite`](#dog-logstimeonsite)
 * [`dog logs:variationInViewport`](#dog-logsvariationinviewport)
 * [`dog logs:variationMousedown`](#dog-logsvariationmousedown)
+* [`dog plugins`](#dog-plugins)
+* [`dog plugins:install PLUGIN...`](#dog-pluginsinstall-plugin)
+* [`dog plugins:link PLUGIN`](#dog-pluginslink-plugin)
+* [`dog plugins:uninstall PLUGIN...`](#dog-pluginsuninstall-plugin)
+* [`dog plugins:update`](#dog-pluginsupdate)
 * [`dog proxy:abtest`](#dog-proxyabtest)
 * [`dog proxy:apply`](#dog-proxyapply)
 * [`dog proxy:canary`](#dog-proxycanary)
@@ -97,7 +99,7 @@ EXAMPLES
   dog deploy green --path ./custom/script.js
 ```
 
-_See code: [src/commands/apps/apply.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/apply.ts)_
+_See code: [src/commands/apps/apply.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/apply.ts)_
 
 ## `dog apps:build`
 
@@ -111,7 +113,7 @@ OPTIONS
   -p, --pathToConfig=pathToConfig  [default: ./dog-app-config.json]
 ```
 
-_See code: [src/commands/apps/build.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/build.ts)_
+_See code: [src/commands/apps/build.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/build.ts)_
 
 ## `dog apps:current`
 
@@ -122,7 +124,7 @@ USAGE
   $ dog apps:current
 ```
 
-_See code: [src/commands/apps/current.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/current.ts)_
+_See code: [src/commands/apps/current.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/current.ts)_
 
 ## `dog apps:init`
 
@@ -133,7 +135,7 @@ USAGE
   $ dog apps:init
 ```
 
-_See code: [src/commands/apps/init.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/init.ts)_
+_See code: [src/commands/apps/init.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/init.ts)_
 
 ## `dog apps:list`
 
@@ -144,7 +146,7 @@ USAGE
   $ dog apps:list
 ```
 
-_See code: [src/commands/apps/list.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/list.ts)_
+_See code: [src/commands/apps/list.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/list.ts)_
 
 ## `dog apps:new`
 
@@ -158,7 +160,7 @@ EXAMPLE
   dog apps:new
 ```
 
-_See code: [src/commands/apps/new.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/new.ts)_
+_See code: [src/commands/apps/new.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/new.ts)_
 
 ## `dog apps:rollback COLOR`
 
@@ -172,7 +174,7 @@ OPTIONS
   --force
 ```
 
-_See code: [src/commands/apps/rollback.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/rollback.ts)_
+_See code: [src/commands/apps/rollback.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/rollback.ts)_
 
 ## `dog apps:sharedataset EMAIL`
 
@@ -183,7 +185,7 @@ USAGE
   $ dog apps:sharedataset EMAIL
 ```
 
-_See code: [src/commands/apps/sharedataset.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/apps/sharedataset.ts)_
+_See code: [src/commands/apps/sharedataset.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/apps/sharedataset.ts)_
 
 ## `dog autocomplete [SHELL]`
 
@@ -206,7 +208,7 @@ EXAMPLES
   $ dog autocomplete --refresh-cache
 ```
 
-_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.0/src/commands/autocomplete/index.ts)_
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.1/src/commands/autocomplete/index.ts)_
 
 ## `dog cms:login`
 
@@ -217,7 +219,7 @@ USAGE
   $ dog cms:login
 ```
 
-_See code: [src/commands/cms/login.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/cms/login.ts)_
+_See code: [src/commands/cms/login.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/cms/login.ts)_
 
 ## `dog domains:add HOSTNAME`
 
@@ -232,7 +234,7 @@ OPTIONS
                                      send to the WHOIS contacts, cname will return a record that needs to be placed
 ```
 
-_See code: [src/commands/domains/add.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/domains/add.ts)_
+_See code: [src/commands/domains/add.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/domains/add.ts)_
 
 ## `dog domains:status HOSTNAME`
 
@@ -243,7 +245,7 @@ USAGE
   $ dog domains:status HOSTNAME
 ```
 
-_See code: [src/commands/domains/status.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/domains/status.ts)_
+_See code: [src/commands/domains/status.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/domains/status.ts)_
 
 ## `dog help [COMMAND]`
 
@@ -260,53 +262,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
-
-## `dog lambda:deploy COLOR PATH`
-
-helper to deploy a lambda to your AWS account (requires AWS keys in your environment)
-
-```
-USAGE
-  $ dog lambda:deploy COLOR PATH
-
-ARGUMENTS
-  COLOR  (blue|green) backend color to point at your new lambda version
-  PATH   path to your zipped lambda function
-
-OPTIONS
-  --force
-```
-
-_See code: [src/commands/lambda/deploy.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/lambda/deploy.ts)_
-
-## `dog lambda:set`
-
-update your lambda deployment config
-
-```
-USAGE
-  $ dog lambda:set
-
-OPTIONS
-  -a, --account=account    account ARN you want to assume for deployment (optional)
-  -f, --function=function  ARN of the lambda to update
-  -r, --region=region      region to deploy into
-  -v, --version=version    version you want to send your traffic to
-```
-
-_See code: [src/commands/lambda/set.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/lambda/set.ts)_
-
-## `dog lambda:show`
-
-show current lambda config
-
-```
-USAGE
-  $ dog lambda:show
-```
-
-_See code: [src/commands/lambda/show.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/lambda/show.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.0/src/commands/help.ts)_
 
 ## `dog login`
 
@@ -317,7 +273,7 @@ USAGE
   $ dog login
 ```
 
-_See code: [src/commands/login.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/login.ts)_
 
 ## `dog logout`
 
@@ -328,7 +284,7 @@ USAGE
   $ dog logout
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logout.ts)_
 
 ## `dog logs:assetLoadTime`
 
@@ -343,7 +299,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/assetLoadTime.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/assetLoadTime.ts)_
+_See code: [src/commands/logs/assetLoadTime.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/assetLoadTime.ts)_
 
 ## `dog logs:caughtError`
 
@@ -358,7 +314,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/caughtError.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/caughtError.ts)_
+_See code: [src/commands/logs/caughtError.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/caughtError.ts)_
 
 ## `dog logs:clientPing`
 
@@ -373,7 +329,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/clientPing.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/clientPing.ts)_
+_See code: [src/commands/logs/clientPing.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/clientPing.ts)_
 
 ## `dog logs:error`
 
@@ -388,7 +344,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/error.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/error.ts)_
+_See code: [src/commands/logs/error.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/error.ts)_
 
 ## `dog logs:fps`
 
@@ -403,7 +359,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/fps.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/fps.ts)_
+_See code: [src/commands/logs/fps.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/fps.ts)_
 
 ## `dog logs:longTasksTiming`
 
@@ -418,7 +374,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/longTasksTiming.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/longTasksTiming.ts)_
+_See code: [src/commands/logs/longTasksTiming.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/longTasksTiming.ts)_
 
 ## `dog logs:mouseDistance`
 
@@ -433,7 +389,7 @@ OPTIONS
   -r, --rid=rid     filter by a single rid (get it from server or proxy logs)
 ```
 
-_See code: [src/commands/logs/mouseDistance.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/mouseDistance.ts)_
+_See code: [src/commands/logs/mouseDistance.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/mouseDistance.ts)_
 
 ## `dog logs:orientationChange`
 
@@ -448,7 +404,7 @@ OPTIONS
   -r, --rid=rid     filter by a single rid (get it from server or proxy logs)
 ```
 
-_See code: [src/commands/logs/orientationChange.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/orientationChange.ts)_
+_See code: [src/commands/logs/orientationChange.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/orientationChange.ts)_
 
 ## `dog logs:outcome`
 
@@ -463,7 +419,7 @@ OPTIONS
   -p, --prettyjson       print pretty JSON
 ```
 
-_See code: [src/commands/logs/outcome.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/outcome.ts)_
+_See code: [src/commands/logs/outcome.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/outcome.ts)_
 
 ## `dog logs:pageScrolling`
 
@@ -478,7 +434,7 @@ OPTIONS
   -p, --prettyjson         print pretty JSON
 ```
 
-_See code: [src/commands/logs/pageScrolling.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/pageScrolling.ts)_
+_See code: [src/commands/logs/pageScrolling.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/pageScrolling.ts)_
 
 ## `dog logs:pageView`
 
@@ -493,7 +449,7 @@ OPTIONS
   -p, --prettyjson         print pretty JSON
 ```
 
-_See code: [src/commands/logs/pageView.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/pageView.ts)_
+_See code: [src/commands/logs/pageView.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/pageView.ts)_
 
 ## `dog logs:performanceTiming`
 
@@ -521,7 +477,7 @@ OPTIONS
       tti
 ```
 
-_See code: [src/commands/logs/performanceTiming.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/performanceTiming.ts)_
+_See code: [src/commands/logs/performanceTiming.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/performanceTiming.ts)_
 
 ## `dog logs:proxyLogs`
 
@@ -536,7 +492,7 @@ OPTIONS
   -p, --prettyjson       print pretty JSON
 ```
 
-_See code: [src/commands/logs/proxyLogs.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/proxyLogs.ts)_
+_See code: [src/commands/logs/proxyLogs.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/proxyLogs.ts)_
 
 ## `dog logs:rapidClicking`
 
@@ -550,7 +506,7 @@ OPTIONS
   -p, --prettyjson  print pretty JSON
 ```
 
-_See code: [src/commands/logs/rapidClicking.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/rapidClicking.ts)_
+_See code: [src/commands/logs/rapidClicking.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/rapidClicking.ts)_
 
 ## `dog logs:serverLogs`
 
@@ -565,7 +521,7 @@ OPTIONS
   -p, --prettyjson   print pretty JSON
 ```
 
-_See code: [src/commands/logs/serverLogs.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/serverLogs.ts)_
+_See code: [src/commands/logs/serverLogs.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/serverLogs.ts)_
 
 ## `dog logs:timeOnPage`
 
@@ -580,7 +536,7 @@ OPTIONS
   -p, --prettyjson         print pretty JSON
 ```
 
-_See code: [src/commands/logs/timeOnPage.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/timeOnPage.ts)_
+_See code: [src/commands/logs/timeOnPage.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/timeOnPage.ts)_
 
 ## `dog logs:timeOnSite`
 
@@ -595,7 +551,7 @@ OPTIONS
   -v, --visibility=visibility  filter by visibility (hidden)
 ```
 
-_See code: [src/commands/logs/timeOnSite.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/timeOnSite.ts)_
+_See code: [src/commands/logs/timeOnSite.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/timeOnSite.ts)_
 
 ## `dog logs:variationInViewport`
 
@@ -610,7 +566,7 @@ OPTIONS
   -p, --prettyjson           print pretty JSON
 ```
 
-_See code: [src/commands/logs/variationInViewport.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/variationInViewport.ts)_
+_See code: [src/commands/logs/variationInViewport.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/variationInViewport.ts)_
 
 ## `dog logs:variationMousedown`
 
@@ -625,7 +581,124 @@ OPTIONS
   -p, --prettyjson           print pretty JSON
 ```
 
-_See code: [src/commands/logs/variationMousedown.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/logs/variationMousedown.ts)_
+_See code: [src/commands/logs/variationMousedown.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/logs/variationMousedown.ts)_
+
+## `dog plugins`
+
+list installed plugins
+
+```
+USAGE
+  $ dog plugins
+
+OPTIONS
+  --core  show core plugins
+
+EXAMPLE
+  $ dog plugins
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.7.8/src/commands/plugins/index.ts)_
+
+## `dog plugins:install PLUGIN...`
+
+installs a plugin into the CLI
+
+```
+USAGE
+  $ dog plugins:install PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to install
+
+OPTIONS
+  -f, --force    yarn install with force flag
+  -h, --help     show CLI help
+  -v, --verbose
+
+DESCRIPTION
+  Can be installed from npm or a git url.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command 
+  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in 
+  the CLI without the need to patch and update the whole CLI.
+
+ALIASES
+  $ dog plugins:add
+
+EXAMPLES
+  $ dog plugins:install myplugin 
+  $ dog plugins:install https://github.com/someuser/someplugin
+  $ dog plugins:install someuser/someplugin
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.7.8/src/commands/plugins/install.ts)_
+
+## `dog plugins:link PLUGIN`
+
+links a plugin into the CLI for development
+
+```
+USAGE
+  $ dog plugins:link PLUGIN
+
+ARGUMENTS
+  PATH  [default: .] path to plugin
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+
+DESCRIPTION
+  Installation of a linked plugin will override a user-installed or core plugin.
+
+  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello' 
+  command will override the user-installed or core plugin implementation. This is useful for development work.
+
+EXAMPLE
+  $ dog plugins:link myplugin
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.7.8/src/commands/plugins/link.ts)_
+
+## `dog plugins:uninstall PLUGIN...`
+
+removes a plugin from the CLI
+
+```
+USAGE
+  $ dog plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+
+ALIASES
+  $ dog plugins:unlink
+  $ dog plugins:remove
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.7.8/src/commands/plugins/uninstall.ts)_
+
+## `dog plugins:update`
+
+update installed plugins
+
+```
+USAGE
+  $ dog plugins:update
+
+OPTIONS
+  -h, --help     show CLI help
+  -v, --verbose
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v1.7.8/src/commands/plugins/update.ts)_
 
 ## `dog proxy:abtest`
 
@@ -639,7 +712,7 @@ OPTIONS
   -o, --origin=origin  (required) FQDN for an A/B test backend or a valid deployed color
 ```
 
-_See code: [src/commands/proxy/abtest.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/abtest.ts)_
+_See code: [src/commands/proxy/abtest.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/abtest.ts)_
 
 ## `dog proxy:apply`
 
@@ -653,7 +726,7 @@ OPTIONS
   -f, --force
 ```
 
-_See code: [src/commands/proxy/apply.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/apply.ts)_
+_See code: [src/commands/proxy/apply.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/apply.ts)_
 
 ## `dog proxy:canary`
 
@@ -676,7 +749,7 @@ OPTIONS
                                a random backend - not recommended
 ```
 
-_See code: [src/commands/proxy/canary.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/canary.ts)_
+_See code: [src/commands/proxy/canary.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/canary.ts)_
 
 ## `dog proxy:gatekeep ORIGIN`
 
@@ -690,7 +763,7 @@ ARGUMENTS
   ORIGIN  a valid deployed color or a fully qualified domain name
 ```
 
-_See code: [src/commands/proxy/gatekeep.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/gatekeep.ts)_
+_See code: [src/commands/proxy/gatekeep.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/gatekeep.ts)_
 
 ## `dog proxy:localhost [PORT]`
 
@@ -704,7 +777,7 @@ ARGUMENTS
   PORT  [default: 3000] the port of your local server
 ```
 
-_See code: [src/commands/proxy/localhost.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/localhost.ts)_
+_See code: [src/commands/proxy/localhost.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/localhost.ts)_
 
 ## `dog proxy:prod PRODUCTIONBACKEND`
 
@@ -718,7 +791,7 @@ ARGUMENTS
   PRODUCTIONBACKEND  a valid deployed color or a fully qualified domain name to set as your single production backend
 ```
 
-_See code: [src/commands/proxy/prod.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/prod.ts)_
+_See code: [src/commands/proxy/prod.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/prod.ts)_
 
 ## `dog proxy:refresh`
 
@@ -729,7 +802,7 @@ USAGE
   $ dog proxy:refresh
 ```
 
-_See code: [src/commands/proxy/refresh.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/refresh.ts)_
+_See code: [src/commands/proxy/refresh.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/refresh.ts)_
 
 ## `dog proxy:rollback`
 
@@ -740,7 +813,7 @@ USAGE
   $ dog proxy:rollback
 ```
 
-_See code: [src/commands/proxy/rollback.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/rollback.ts)_
+_See code: [src/commands/proxy/rollback.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/rollback.ts)_
 
 ## `dog proxy:show`
 
@@ -751,7 +824,7 @@ USAGE
   $ dog proxy:show
 ```
 
-_See code: [src/commands/proxy/show.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/proxy/show.ts)_
+_See code: [src/commands/proxy/show.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/proxy/show.ts)_
 
 ## `dog share`
 
@@ -762,7 +835,7 @@ USAGE
   $ dog share
 ```
 
-_See code: [src/commands/share.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/share.ts)_
+_See code: [src/commands/share.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-30/src/commands/share.ts)_
 
 ## `dog start`
 
@@ -773,11 +846,9 @@ USAGE
   $ dog start
 
 OPTIONS
-  -F, --onlyfunctions        only run your functions (faster reloads)
-  -f, --functions=functions  [default: functions.js]
   -p, --port=port
-  -r, --routes=routes        relative path to your routes.json file
+  -s, --script=script
 ```
 
-_See code: [src/commands/start.ts](https://github.com/DigitalOptGroup/dogcli/blob/v0.0.1-dev-preview-19/src/commands/start.ts)_
+_See code: [@digitaloptgroup/plugin-install-start](https://github.com/DigitalOptGroup/plugin-install-start/blob/v0.0.1-devpreview-01/src/commands/start.ts)_
 <!-- commandsstop -->
