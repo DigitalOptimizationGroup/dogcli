@@ -11,6 +11,11 @@ export default class ShareDataset extends Command {
   static description =
     'share your BigQuery dataset with an email address associated with a Google Cloud Account'
 
+  static examples = [
+    `$ dog apps:sharedataset sarah.smith@example.com
+`
+  ]
+
   static args = [{name: 'email', required: true}]
 
   async run() {

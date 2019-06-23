@@ -4,6 +4,14 @@ import {streamLogs} from '../../stream-logs'
 export default class RapidClickingLogs extends Command {
   static description = 'incidences of "rapid/rage clicking" in your application'
 
+  static examples = [
+    `$ dog logs:rapidClicking
+
+# Pretty print JSON
+$ dog logs:rapidClicking --prettyjson
+`
+  ]
+
   static flags = {
     prettyjson: flags.boolean({
       char: 'p',

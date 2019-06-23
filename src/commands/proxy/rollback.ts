@@ -11,6 +11,7 @@ import {getProjectId} from '../../get-project-id'
 
 export default class RollbackProxy extends Command {
   static description = `rollback proxy to a prior deployment`
+
   static flags = {}
   static args = []
 

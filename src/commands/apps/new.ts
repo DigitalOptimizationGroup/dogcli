@@ -7,8 +7,6 @@ import * as inquirer from 'inquirer'
 export default class NewApp extends Command {
   static description = 'create a new application'
 
-  static examples = ['dog apps:new']
-
   static args = []
 
   public static flags = {}

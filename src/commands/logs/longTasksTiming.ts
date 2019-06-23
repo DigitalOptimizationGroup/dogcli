@@ -4,7 +4,18 @@ import {streamLogs} from '../../stream-logs'
 export default class LongTasksTimingLongs extends Command {
   // maybe it's not fps? but frames over 16ms and longtask timign api
   static description =
-    'instances of client side tasks that exceed 50ms using the browsers Long Tasks API - filter: --color'
+    'instances of client side tasks that exceed 50ms using the browsers Long Tasks API'
+
+  static examples = [
+    `$ dog logs:longTasksTiming
+      
+# Filter by backend color
+$ dog logs:longTasksTiming --color blue
+
+# Pretty print JSON
+$ dog logs:longTasksTiming --prettyjson
+`
+  ]
 
   static flags = {
     color: flags.string({

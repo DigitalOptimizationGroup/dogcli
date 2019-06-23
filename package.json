@@ -1,14 +1,14 @@
 {
   "name": "@digitaloptgroup/cli",
   "description": "Digital Optimization Group Edge Platform CLI",
-  "version": "0.0.1-dev-preview-30",
+  "version": "0.0.1-dev-preview-31",
   "author": "Digital Optimization Group LLC",
   "bin": {
     "dog": "./bin/run"
   },
   "bugs": "https://github.com/DigitalOptimizationGroup/dogcli/issues",
   "dependencies": {
-    "@digitaloptgroup/plugin-install-start": "0.0.1-devpreview-01",
+    "@digitaloptgroup/plugin-install-start": "0.0.1-devpreview-02",
     "@oclif/command": "^1.5.14",
     "@oclif/config": "^1.12.12",
     "@oclif/errors": "^1.2.2",
@@ -121,7 +121,8 @@
         "description": "manage your apps"
       },
       "autocomplete": {
-        "description": "setup optional autocomplete"
+        "description": "setup optional autocomplete",
+        "hidden": true
       },
       "cms": {
         "description": "work with your CMS"
@@ -137,6 +138,9 @@
       },
       "proxy": {
         "description": "a/b test & canary release between backends"
+      },
+      "plugins": {
+        "hidden": true
       }
     }
   },

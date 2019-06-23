@@ -2,7 +2,18 @@ import {Command, flags} from '@oclif/command'
 import {streamLogs} from '../../stream-logs'
 
 export default class ProxyLogs extends Command {
-  static description = 'proxy logs - filter: --country'
+  static description = 'proxy logs'
+
+  static examples = [
+    `$ dog logs:proxyLogs
+          
+# Filter by country
+$ dog logs:proxyLogs --country US
+          
+# Pretty print JSON
+$ dog logs:proxyLogs --prettyjson
+`
+  ]
 
   static flags = {
     country: flags.string({

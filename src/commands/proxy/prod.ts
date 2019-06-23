@@ -10,6 +10,14 @@ import {DefaultConfig} from '@digitaloptgroup/types/proxy'
 export default class ProductionBackend extends Command {
   static description = `set your local proxy config to a single production backend`
 
+  static examples = [
+    `$ dog proxy:prod blue
+
+# Set any FQDN as the production backend
+$ dog proxy:prod https://www.example.com
+`
+  ]
+
   static flags = {}
 
   static args = [

@@ -2,8 +2,21 @@ import {Command, flags} from '@oclif/command'
 import {streamLogs} from '../../stream-logs'
 
 export default class OutcomeLogs extends Command {
-  static description =
-    'custom implemented outcomes from your application - filter: --outcome'
+  static description = 'custom implemented outcomes from your application'
+
+  static examples = [
+    `$ dog logs:outcome
+        
+# Filter by custom outcome (outcomes defined by user)
+$ dog logs:outcome --outcome cartAddItem
+$ dog logs:outcome --outcome heroImageClick
+$ dog logs:outcome --outcome searchAddFilter
+
+        
+# Pretty print JSON
+$ dog logs:outcome --prettyjson
+`
+  ]
 
   static flags = {
     outcome: flags.string({

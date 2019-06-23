@@ -12,7 +12,20 @@ const clc = require('cli-color')
 export default class Gatekeep extends Command {
   static description = 'create a gatekeeping url to any given origin'
 
-  static flags = {}
+  static examples = [
+    `$ dog proxy:gatekeep blue
+
+# Gatekeep and open preview mode of the CMS
+$ dog proxy:gatekeep blue --cmsPreview
+
+# Gatekeep to any FQDN on the internet
+$ dog proxy:gatekeep https://www.example.com
+`
+  ]
+
+  static flags = {
+    cmsPreview: flags.boolean()
+  }
 
   static args = [
     {
@@ -23,9 +36,17 @@ export default class Gatekeep extends Command {
   ]
 
   async run() {
-    const {args} = this.parse(Gatekeep)
+    const {args, flags} = this.parse(Gatekeep)
     const API = apiClient(this)
     const projectId = configstore.get('projectId')
+
+    if (flags.cmsPreview) {
+      this.log(`
+
+CMS preview with gatekeeping is currently under development. Generating normal gatekeeping URL...
+
+`)
+    }
 
     this.log('Generating gatekeeping url...')
 

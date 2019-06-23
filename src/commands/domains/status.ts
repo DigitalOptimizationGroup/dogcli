@@ -6,6 +6,11 @@ import {CUSTOM_DOMAINS_CNAME} from '../../cli-config'
 export default class CheckDomainStatus extends Command {
   static description = 'check the status of a custom hostname'
 
+  static examples = [
+    `$ dog domains:status www.example.com
+`
+  ]
+
   static flags = {}
 
   static args = [{name: 'hostname', required: true}]

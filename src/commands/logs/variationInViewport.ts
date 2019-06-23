@@ -2,7 +2,18 @@ import {Command, flags} from '@oclif/command'
 import {streamLogs} from '../../stream-logs'
 
 export default class VariationInViewportLogs extends Command {
-  static description = 'variations entering the viewport - filter: --featureId'
+  static description = 'variations entering the viewport'
+
+  static examples = [
+    `$ dog logs:variationInViewport
+          
+# Filter by featureId
+$ dog logs:variationInViewport --featureId abc-123
+          
+# Pretty print JSON
+$ dog logs:variationInViewport --prettyjson
+`
+  ]
 
   static flags = {
     featureId: flags.string({

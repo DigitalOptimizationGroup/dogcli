@@ -3,7 +3,18 @@ import {streamLogs} from '../../stream-logs'
 
 export default class MouseDistanceLogs extends Command {
   static description =
-    'euclidean mouse distance, over 3 second intervals, from your applications: filter --rid'
+    'euclidean mouse distance, over 3 second intervals, from your applications'
+
+  static examples = [
+    `$ dog logs:mouseDistance
+      
+# Filter by a single request Id
+$ dog logs:mouseDistance --rid abc-123
+      
+# Pretty print JSON
+$ dog logs:mouseDistance --prettyjson
+`
+  ]
 
   static flags = {
     rid: flags.string({

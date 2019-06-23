@@ -2,7 +2,7 @@
  * Copyright Digital Optimization Group LLC
  * 2019 - present
  */
-import {Command} from '@oclif/command'
+import {Command, flags} from '@oclif/command'
 import {configstore} from '../../configstore'
 import {apiClient} from '../../api'
 import {cli} from 'cli-ux'
@@ -14,7 +14,18 @@ export default class Localhost extends Command {
   static description =
     '(experimental) create a gatekeeping url that tunnels to your local development server'
 
-  static flags = {}
+  static examples = [
+    `$ dog proxy:localhost
+
+# Tunnel to a custom port (default 3000)
+$ dog proxy:localhost 3001
+
+# Include preview mode of the CMS
+$ dog proxy:localhost 3001 --cmsPreview
+`
+  ]
+
+  static flags = {cmsPreview: flags.boolean()}
 
   static args = [
     {
@@ -25,13 +36,21 @@ export default class Localhost extends Command {
   ]
 
   async run() {
-    const {args} = this.parse(Localhost)
+    const {args, flags} = this.parse(Localhost)
     const API = apiClient(this)
     const projectId = getProjectId()
 
     this.log()
     this.log('This is an EXPERIMENTAL feature')
     this.log()
+
+    if (flags.cmsPreview) {
+      this.log(`
+
+CMS preview with gatekeeping is currently under development. Generating normal gatekeeping URL...
+
+`)
+    }
 
     this.log('Creating SSH tunnel...')
 

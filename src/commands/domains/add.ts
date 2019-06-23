@@ -8,6 +8,20 @@ import {CUSTOM_DOMAINS_CNAME} from '../../cli-config'
 export default class AddDomain extends Command {
   static description = 'attach a CNAME to your application'
 
+  static examples = [
+    `$ dog domains:add www.example.com
+
+# Validate your domain automatically (default)
+$ dog domains:add www.example.com --validation http
+
+# Validate your domain by placing an extra CNAME with auth code
+$ dog domains:add www.example.com --validation cname
+
+# Validate your domain by receiving an email sent to your WHOIS contacts
+$ dog domains:add www.example.com --validation email
+`
+  ]
+
   static flags = {
     validation: flags.string({
       char: 'v',

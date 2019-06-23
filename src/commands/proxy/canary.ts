@@ -11,6 +11,24 @@ import {CanaryConfig} from '@digitaloptgroup/types/proxy'
 export default class AbTest extends Command {
   static description = 'run and manage canary releases'
 
+  static examples = [
+    `# Send 20% of your traffic to your green backend as a canary
+$ dog proxy:canary --production blue --canary green --weight 20
+
+# Increase to 50% of your traffic to your green backend
+$ dog proxy:canary -p blue -c green -w 50
+
+# Increase to 75% of your traffic to your green backend
+$ dog proxy:canary -p blue -c green -w 75
+
+# Force reassignment of all visitors on both backends (advanced - not recommended)
+$ dog proxy:canary -p blue -c green -w 50 --reassign
+
+# Decrease traffic allocated to canary backend (advanced - not recommended)
+$ dog proxy:canary -p blue -c green -w 5 --force
+`
+  ]
+
   static flags = {
     production: flags.string({
       description: 'FQDN for production backend or a valid deployed color',

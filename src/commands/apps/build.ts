@@ -11,7 +11,16 @@ import {createHash} from 'crypto'
 export default class BuildApp extends Command {
   static description = 'build your application from a template script'
 
-  static examples = []
+  static examples = [
+    `$ dog apps:build
+
+# Use a non-default path to your config
+dog apps:build --pathToConfig ./dog-app-config.json
+
+# Or with flag character
+dog apps:build -p ./dog-app-config.json
+`
+  ]
 
   static args = []
 

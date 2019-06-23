@@ -3,7 +3,18 @@ import {streamLogs} from '../../stream-logs'
 
 export default class TimeOnPageLogs extends Command {
   static description =
-    'time on page activity events (event values are not cumulative) - filter: pathname'
+    'time on page activity events (event values are not cumulative)'
+
+  static examples = [
+    `$ dog logs:timeOnPage
+            
+# Filter by pathname
+$ dog logs:timeOnPage --pathname /about-us
+            
+# Pretty print JSON
+$ dog logs:timeOnPage --prettyjson
+`
+  ]
 
   static flags = {
     pathname: flags.string({

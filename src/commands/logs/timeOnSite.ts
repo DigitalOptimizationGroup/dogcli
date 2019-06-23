@@ -3,7 +3,18 @@ import {streamLogs} from '../../stream-logs'
 
 export default class TimeOnSiteLogs extends Command {
   static description =
-    'time on site activity events (event values are not cumulative) - filter: visibility'
+    'time on site activity events (event values are not cumulative)'
+
+  static examples = [
+    `$ dog logs:timeOnSite
+              
+# Filter by visibility
+$ dog logs:timeOnSite --visibility hidden
+              
+# Pretty print JSON
+$ dog logs:timeOnSite --prettyjson
+`
+  ]
 
   static flags = {
     visibility: flags.string({

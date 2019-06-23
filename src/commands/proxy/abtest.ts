@@ -11,6 +11,21 @@ import {AbConfig} from '@digitaloptgroup/types/proxy'
 export default class AbTest extends Command {
   static description = 'deploy a/b/n tests across any number of origins'
 
+  static examples = [
+    `# A/B test between your blue and green backends
+$ dog proxy:abtest --origin blue --origin green
+
+# A/B test between your blue backend and example.com
+$ dog proxy:abtest --origin blue --origin https://www.example.com
+
+# A/B test between 3 origins
+$ dog proxy:abtest -o blue -o green -o https://www.example.com
+
+# A/B test between 4 origins
+$ dog proxy:abtest -o blue -o green -o https://www.example.com -o https://www.digitaloptgroup.com
+`
+  ]
+
   static flags = {
     origin: flags.string({
       description: 'FQDN for an A/B test backend or a valid deployed color',

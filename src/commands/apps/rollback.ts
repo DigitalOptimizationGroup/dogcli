@@ -12,6 +12,14 @@ import {getProjectId} from '../../get-project-id'
 export default class RollbackColor extends Command {
   static description = `rollback a color to a prior deployment`
 
+  static examples = [
+    `$ dog apps:rollback blue
+
+# Force rollback a backend receiving production traffic
+$ dog apps:rollback blue --force
+`
+  ]
+
   static flags = {force: flags.boolean()}
 
   static args = [{name: 'color', required: true}]
