@@ -9,6 +9,7 @@ import {cli} from 'cli-ux'
 const clc = require('cli-color')
 import * as ngrok from 'ngrok'
 import {getProjectId} from '../../get-project-id'
+import * as inquirer from 'inquirer'
 
 export default class Localhost extends Command {
   static description =
@@ -68,11 +69,44 @@ Please try again or contact us.
       process.exit()
     }
 
+    this.log()
+    this.log('Refreshing list of domains...')
+    this.log()
+
+    const {domains} = await API.post(`/api/v1/list-domains`, '', {
+      params: {projectId}
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          console.log('Error, please try again.')
+          process.exit()
+        }
+        return response.data || {}
+      })
+      .catch(err => {
+        console.log('Error, please try again.')
+        process.exit()
+      })
+
+    const answer: {name: string} = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'name',
+        message: `Select a domain to gatekeep through:`,
+        choices: [...domains, `${projectId}.edgebayes.com`]
+      }
+    ])
+
+    this.log()
     this.log('Generating gatekeeping url...')
 
     await API.post(
       `/api/v1/gatekeeping`,
-      {origin: url, cmsPreview: flags.cmsPreview},
+      {
+        gatekeepThrough: `https://${answer.name}`,
+        origin: url,
+        cmsPreview: flags.cmsPreview
+      },
       {
         params: {
           projectId
