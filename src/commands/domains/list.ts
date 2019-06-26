@@ -1,43 +1,54 @@
+/*
+ * Copyright Digital Optimization Group LLC
+ * 2019 - present
+ */
 import {Command} from '@oclif/command'
+import {getProjectId} from '../../get-project-id'
 import {apiClient} from '../../api'
-import {configstore} from '../../configstore'
 
-export default class CheckDomainStatus extends Command {
-  static description = 'list all custom hostnames associated with your app'
+export default class ListDomains extends Command {
+  static description = `list all domains associated with this app`
 
   static flags = {}
 
   static args = []
 
-  async run() {
+  public async run() {
     const API = apiClient(this)
-    const {args} = this.parse(CheckDomainStatus)
+    const projectId = getProjectId()
 
-    const projectId = configstore.get('projectId')
+    this.log()
+    this.log('Refreshing domains list...')
+    this.log()
 
-    this.log(`
-THIS COMMAND IS UNDER DEVELOPMENT   
-`)
+    const {domains} = await API.post(`/api/v1/list-domains`, '', {
+      params: {projectId}
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          console.log('Error, please try again.')
+          process.exit()
+        }
+        return response.data || {}
+      })
+      .catch(err => {
+        console.log('Error, please try again.')
+        process.exit()
+      })
 
-    // const status = await API.post(
-    //   `/api/v1/list-domains`,
-    //   {},
-    //   {
-    //     params: {
-    //       projectId
-    //     }
-    //   }
-    // )
-    //   .then(response => {
-    //     if (response.data.error) {
-    //       this.log(response.data.error)
-    //       process.exit()
-    //     }
-    //     return response.data
-    //   })
-    //   .catch(err => {
-    //     this.log('Failed to get domain information, please rerun.')
-    //     process.exit()
-    //   })
+    if (domains.length > 0) {
+      domains.forEach((projectId: string) => {
+        this.log(projectId)
+      })
+    } else {
+      this
+        .log(`Your App ${projectId} does not have any custom domains associated with it. 
+
+For information on adding a domain see:
+
+dog domains:add --help`)
+    }
+
+    this.log()
   }
 }

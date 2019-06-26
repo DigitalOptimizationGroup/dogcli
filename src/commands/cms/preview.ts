@@ -20,7 +20,8 @@ $ dog cms:preview https://www.example.com
     {
       name: 'url',
       required: true,
-      description: 'must be a fully qualified domain name'
+      description: 'must be a fully qualified domain name',
+      default: 'http://localhost:3000'
     }
   ]
 
@@ -28,11 +29,6 @@ $ dog cms:preview https://www.example.com
     const {args} = this.parse(Gatekeep)
     const API = apiClient(this)
     const projectId = getProjectId()
-
-    this.log(`
-THIS COMMAND IS UNDER DEVELOPMENT   
-    `)
-    process.exit()
 
     this.log('Generating Preview url...')
 
@@ -51,7 +47,8 @@ THIS COMMAND IS UNDER DEVELOPMENT
       .then(response => {
         this.log()
         this.log(
-          `Visit this URL to access the Preview (will attempt to automatically open it now):`
+          `Visit this URL to access the Preview (will attempt to automatically open it now):
+          `
         )
         this.log(clc.bold(`${response.data}`))
         this.log()

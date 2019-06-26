@@ -8,6 +8,7 @@ import {apiClient} from '../../api'
 import {cli} from 'cli-ux'
 const logSymbols = require('log-symbols')
 const clc = require('cli-color')
+import * as inquirer from 'inquirer'
 
 export default class Gatekeep extends Command {
   static description = 'create a gatekeeping url to any given origin'
@@ -40,19 +41,44 @@ $ dog proxy:gatekeep https://www.example.com
     const API = apiClient(this)
     const projectId = configstore.get('projectId')
 
-    if (flags.cmsPreview) {
-      this.log(`
+    this.log()
+    this.log('Refreshing list of domains...')
+    this.log()
 
-CMS preview with gatekeeping is currently under development. Generating normal gatekeeping URL...
+    const {domains} = await API.post(`/api/v1/list-domains`, '', {
+      params: {projectId}
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          console.log('Error, please try again.')
+          process.exit()
+        }
+        return response.data || {}
+      })
+      .catch(err => {
+        console.log('Error, please try again.')
+        process.exit()
+      })
 
-`)
-    }
+    const answer: {name: string} = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'name',
+        message: `Select a domain to gatekeep through:`,
+        choices: [...domains, `${projectId}.edgebayes.com`]
+      }
+    ])
 
+    this.log()
     this.log('Generating gatekeeping url...')
 
     await API.post(
       `/api/v1/gatekeeping`,
-      {origin: args.origin},
+      {
+        gatekeepThrough: `https://${answer.name}`,
+        origin: args.origin,
+        cmsPreview: flags.cmsPreview
+      },
       {
         params: {
           projectId

@@ -112,6 +112,9 @@ force flag:      [${flags.force ? true : false}]
 Successfully deployed to your: ${args.color} backend
 
 https://${args.color}-${projectId}.edgefisher.com
+
+Or visit with gatekeeping
+dog proxy:gatekeep ${args.color}
 `)
       })
     } else {

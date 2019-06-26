@@ -25,7 +25,12 @@ $ dog proxy:localhost 3001 --cmsPreview
 `
   ]
 
-  static flags = {cmsPreview: flags.boolean()}
+  static flags = {
+    cmsPreview: flags.boolean({
+      char: 'c',
+      description: 'include realtime preview mode in created link'
+    })
+  }
 
   static args = [
     {
@@ -43,14 +48,6 @@ $ dog proxy:localhost 3001 --cmsPreview
     this.log()
     this.log('This is an EXPERIMENTAL feature')
     this.log()
-
-    if (flags.cmsPreview) {
-      this.log(`
-
-CMS preview with gatekeeping is currently under development. Generating normal gatekeeping URL...
-
-`)
-    }
 
     this.log('Creating SSH tunnel...')
 
@@ -75,7 +72,7 @@ Please try again or contact us.
 
     await API.post(
       `/api/v1/gatekeeping`,
-      {origin: url},
+      {origin: url, cmsPreview: flags.cmsPreview},
       {
         params: {
           projectId

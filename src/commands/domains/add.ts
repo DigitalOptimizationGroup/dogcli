@@ -2,6 +2,7 @@ import {Command, flags} from '@oclif/command'
 import {apiClient} from '../../api'
 import {configstore} from '../../configstore'
 const logSymbols = require('log-symbols')
+import {getProjectId} from '../../get-project-id'
 
 import {CUSTOM_DOMAINS_CNAME} from '../../cli-config'
 
@@ -38,7 +39,7 @@ $ dog domains:add www.example.com --validation email
     const API = apiClient(this)
     const {args, flags} = this.parse(AddDomain)
 
-    const projectId = configstore.get('projectId')
+    const projectId = getProjectId()
 
     await API.post(
       `/api/v1/custom-domain`,
