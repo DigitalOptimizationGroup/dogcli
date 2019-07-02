@@ -7,7 +7,14 @@ import * as inquirer from 'inquirer'
 export default class NewApp extends Command {
   static description = 'create a new application'
 
-  static args = []
+  static args = [
+    {
+      name: 'friendlyName',
+      description:
+        'a friendly display name for your project. the id will be created from this.',
+      required: true
+    }
+  ]
 
   public static flags = {}
 
@@ -22,7 +29,9 @@ export default class NewApp extends Command {
       this.log('Creating new project...')
     }, 3000)
     const appInfo = await API.post('/api/v1/create-new-project', '', {
-      params: {}
+      params: {
+        friendlyName: args.friendlyName
+      }
     })
       .then(response => {
         clearInterval(intervalId)
