@@ -17,7 +17,7 @@
     "@oclif/plugin-plugins": "^1.7.8",
     "@oclif/plugin-warn-if-update-available": "^1.7.0",
     "@types/uuid": "^3.4.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "chalk": "^2.4.2",
     "cli-color": "^1.4.0",
     "cli-ux": "^5.2.1",
