@@ -28,7 +28,7 @@
     "diff": "^4.0.1",
     "dotenv": "^6.1.0",
     "dotenv-webpack": "^1.5.7",
-    "eventsource": "^1.0.7",
+    "eventsource": "^2.0.2",
     "fast-stable-stringify": "^1.0.0",
     "find-up": "^4.0.0",
     "glob": "^7.1.3",
